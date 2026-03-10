@@ -26,10 +26,10 @@ const CARD = {
 };
 
 const STAT_ITEMS = [
-  { key: "pushEvents",  label: "Pushes",        color: "#58a6ff" },
-  { key: "prEvents",    label: "Pull Requests",  color: "#a371f7" },
-  { key: "issueEvents", label: "Issues",         color: "#ffa657" },
-  { key: "total",       label: "Total",          color: "#3fb950" },
+  { key: "pushEvents",  label: "Pushes",  color: "#58a6ff" },
+  { key: "prEvents",    label: "PRs",     color: "#a371f7" },
+  { key: "issueEvents", label: "Issues",  color: "#ffa657" },
+  { key: "total",       label: "Total",   color: "#3fb950" },
 ] as const;
 
 export function ActivityCharts({ activity }: Props) {
@@ -41,32 +41,27 @@ export function ActivityCharts({ activity }: Props) {
   return (
     <div className="space-y-4">
       {/* Daily activity */}
-      <div style={CARD} className="p-5">
+      <div style={CARD} className="p-4 sm:p-5">
         <div style={{ borderBottom: "1px solid #21262d" }} className="pb-3 mb-4">
-          <h3
-            className="text-xs font-semibold uppercase tracking-widest"
-            style={{ color: "#484f58" }}
-          >
+          <h3 className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#484f58" }}>
             Activity — Last 30 Days
           </h3>
         </div>
 
-        {/* Stat pills */}
-        <div className="flex flex-wrap gap-6 mb-5">
+        {/* Stat pills — 2x2 on mobile, row on desktop */}
+        <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-3 sm:gap-6 mb-5">
           {STAT_ITEMS.map(({ key, label, color }) => (
             <div key={key} className="flex flex-col gap-0.5">
-              <span className="text-xl font-bold" style={{ color }}>
+              <span className="text-lg sm:text-xl font-bold" style={{ color }}>
                 {activity[key]}
               </span>
-              <span className="text-xs" style={{ color: "#484f58" }}>
-                {label}
-              </span>
+              <span className="text-xs" style={{ color: "#484f58" }}>{label}</span>
             </div>
           ))}
         </div>
 
-        <ResponsiveContainer width="100%" height={160}>
-          <AreaChart data={dailyData} margin={{ top: 4, right: 4, left: -28, bottom: 0 }}>
+        <ResponsiveContainer width="100%" height={140}>
+          <AreaChart data={dailyData} margin={{ top: 4, right: 4, left: -32, bottom: 0 }}>
             <defs>
               <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#58a6ff" stopOpacity={0.25} />
@@ -76,16 +71,17 @@ export function ActivityCharts({ activity }: Props) {
             <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
             <XAxis
               dataKey="label"
-              tick={{ fontSize: 10, fill: "#484f58" }}
+              tick={{ fontSize: 9, fill: "#484f58" }}
               tickLine={false}
               axisLine={false}
               interval="preserveStartEnd"
             />
             <YAxis
-              tick={{ fontSize: 10, fill: "#484f58" }}
+              tick={{ fontSize: 9, fill: "#484f58" }}
               tickLine={false}
               axisLine={false}
               allowDecimals={false}
+              width={24}
             />
             <Tooltip
               contentStyle={TOOLTIP_STYLE}
@@ -107,33 +103,28 @@ export function ActivityCharts({ activity }: Props) {
       </div>
 
       {/* Weekday breakdown */}
-      <div style={CARD} className="p-5">
+      <div style={CARD} className="p-4 sm:p-5">
         <div style={{ borderBottom: "1px solid #21262d" }} className="pb-3 mb-4">
-          <h3
-            className="text-xs font-semibold uppercase tracking-widest"
-            style={{ color: "#484f58" }}
-          >
+          <h3 className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#484f58" }}>
             Activity by Weekday
           </h3>
         </div>
 
-        <ResponsiveContainer width="100%" height={140}>
-          <BarChart
-            data={activity.byWeekday}
-            margin={{ top: 4, right: 4, left: -28, bottom: 0 }}
-          >
+        <ResponsiveContainer width="100%" height={130}>
+          <BarChart data={activity.byWeekday} margin={{ top: 4, right: 4, left: -32, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#21262d" vertical={false} />
             <XAxis
               dataKey="day"
-              tick={{ fontSize: 11, fill: "#484f58" }}
+              tick={{ fontSize: 10, fill: "#484f58" }}
               tickLine={false}
               axisLine={false}
             />
             <YAxis
-              tick={{ fontSize: 10, fill: "#484f58" }}
+              tick={{ fontSize: 9, fill: "#484f58" }}
               tickLine={false}
               axisLine={false}
               allowDecimals={false}
+              width={24}
             />
             <Tooltip
               contentStyle={TOOLTIP_STYLE}
@@ -141,7 +132,7 @@ export function ActivityCharts({ activity }: Props) {
               itemStyle={{ color: "#a371f7" }}
               formatter={(v) => [v ?? 0, "events"]}
             />
-            <Bar dataKey="count" radius={[4, 4, 0, 0]} maxBarSize={36} fill="#a371f7" />
+            <Bar dataKey="count" radius={[4, 4, 0, 0]} maxBarSize={32} fill="#a371f7" />
           </BarChart>
         </ResponsiveContainer>
       </div>

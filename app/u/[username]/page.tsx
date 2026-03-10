@@ -14,7 +14,7 @@ interface Props {
   params: Promise<{ username: string }>;
 }
 
-export const revalidate = 21600;
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { username } = await params;
@@ -31,7 +31,7 @@ async function fetchDashboard(username: string): Promise<ApiResponse> {
 
   const res = await fetch(
     `${base}/api/analyze?username=${encodeURIComponent(username)}`,
-    { next: { revalidate: 21600 } }
+    { cache: "no-store" }
   );
   return res.json() as Promise<ApiResponse>;
 }
@@ -66,10 +66,12 @@ export default async function UserPage({ params }: Props) {
   const cachedDate = new Date(data.cachedAt);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
+    <div className="max-w-5xl mx-auto px-3 sm:px-4 py-5 sm:py-8">
       {/* Top bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
-        <SearchForm defaultValue={username} compact />
+      <div className="flex items-center justify-between gap-2 mb-4 sm:mb-6">
+        <div className="flex-1 min-w-0">
+          <SearchForm defaultValue={username} compact />
+        </div>
         <CopyLinkButton />
       </div>
 
@@ -80,33 +82,39 @@ export default async function UserPage({ params }: Props) {
         totalForks={data.totalForks}
       />
 
-      {/* Main grid */}
-      <div className="mt-5 grid grid-cols-1 lg:grid-cols-3 gap-5">
+      {/* Main grid: single col on mobile, 3-col on desktop */}
+      <div className="mt-4 sm:mt-5 grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
+
+        {/* On mobile: insights + languages first (sidebar goes to top) */}
+        <div className="lg:hidden space-y-4">
+          <InsightsCard insights={data.insights} />
+          <LanguageChart languages={data.languages} />
+        </div>
+
         {/* Left: 2/3 */}
-        <div className="lg:col-span-2 space-y-5">
+        <div className="lg:col-span-2 space-y-4 sm:space-y-5">
           <ActivityCharts activity={data.activity} />
-          <div className="grid sm:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
             <RepoList title="Most Starred" repos={data.mostStarredRepos} />
             <RepoList title="Recently Updated" repos={data.recentlyUpdatedRepos} />
           </div>
         </div>
 
-        {/* Right: 1/3 */}
-        <div className="space-y-5">
+        {/* Right: 1/3 — hidden on mobile (shown above instead) */}
+        <div className="hidden lg:flex lg:flex-col lg:space-y-5">
           <InsightsCard insights={data.insights} />
           <LanguageChart languages={data.languages} />
         </div>
       </div>
 
-      {/* Footer meta */}
+      {/* Footer */}
       <div
-        className="mt-8 pt-4 flex flex-wrap items-center gap-x-5 gap-y-1 text-xs"
+        className="mt-6 sm:mt-8 pt-4 flex flex-wrap items-center gap-x-5 gap-y-1 text-xs"
         style={{ borderTop: "1px solid #21262d", color: "#484f58" }}
       >
         <span className="flex items-center gap-1.5">
           <Clock size={11} />
-          Cached{" "}
-          {cachedDate.toLocaleDateString("en-US", {
+          Cached {cachedDate.toLocaleDateString("en-US", {
             month: "short", day: "numeric", year: "numeric",
             hour: "2-digit", minute: "2-digit",
           })}

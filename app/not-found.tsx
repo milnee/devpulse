@@ -28,7 +28,6 @@ export default function NotFound() {
         href="/"
         className="text-sm transition-colors"
         style={{ color: "#484f58" }}
-        onMouseOver={() => {}}
       >
         ← Back to home
       </Link>
