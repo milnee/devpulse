@@ -2,12 +2,13 @@
 
 import {
   TrendingUp, TrendingDown, Minus,
-  Code2, Flame, GitCommitHorizontal,
+  Code2, Flame, GitCommitHorizontal, Clock,
 } from "lucide-react";
-import type { Insights } from "@/lib/types";
+import type { Insights, ActivityBreakdown } from "@/lib/types";
 
 interface Props {
   insights: Insights;
+  activity: ActivityBreakdown;
 }
 
 const CARD = {
@@ -16,7 +17,14 @@ const CARD = {
   borderRadius: "12px",
 };
 
-export function InsightsCard({ insights }: Props) {
+function fmtHour(h: number): string {
+  if (h === 0) return "12am";
+  if (h < 12) return `${h}am`;
+  if (h === 12) return "12pm";
+  return `${h - 12}pm`;
+}
+
+export function InsightsCard({ insights, activity }: Props) {
   const trend = insights.activityTrend;
 
   const TrendIcon = trend > 5 ? TrendingUp : trend < -5 ? TrendingDown : Minus;
@@ -64,6 +72,11 @@ export function InsightsCard({ insights }: Props) {
       ),
       bg: "rgba(163,113,247,0.08)",
       text: `~${insights.totalCommitsEstimate} commit${insights.totalCommitsEstimate !== 1 ? "s" : ""} in recent events`,
+    },
+    {
+      icon: <Clock size={14} style={{ color: "#3fb950" }} className="shrink-0 mt-0.5" />,
+      bg: "rgba(63,185,80,0.08)",
+      text: `Most active ${activity.mostActiveDay}s · peak around ${fmtHour(activity.peakHour)} UTC`,
     },
   ];
 

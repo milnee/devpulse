@@ -39,7 +39,12 @@ export interface GitHubRepo {
 export interface GitHubEventPayload {
   commits?: { message: string; sha?: string }[];
   action?: string;
-  pull_request?: { title: string };
+  pull_request?: {
+    title: string;
+    additions?: number;
+    deletions?: number;
+    merged?: boolean;
+  };
   issue?: { title: string };
 }
 
@@ -91,15 +96,27 @@ export interface WeekdayActivity {
 }
 
 export interface ActivityBreakdown {
-  // Counts are for the last 30 days
+  // 30-day event type counts
   pushEvents: number;
   prEvents: number;
   issueEvents: number;
   otherEvents: number;
   total: number;
-  // 30-day daily data for area chart
+  // 90-day detailed contribution counts
+  prOpened: number;
+  issuesOpened: number;
+  codeReviews: number;
+  contributedTo: number;
+  linesAdded: number;
+  linesDeleted: number;
+  // Streaks (from daily90)
+  currentStreak: number;
+  longestStreak: number;
+  // Work patterns
+  mostActiveDay: string;   // e.g. "Tuesday"
+  peakHour: number;        // 0–23 UTC
+  // Chart data
   daily: DailyActivity[];
-  // 90-day daily data for contribution heatmap
   daily90: DailyActivity[];
   byWeekday: WeekdayActivity[];
 }

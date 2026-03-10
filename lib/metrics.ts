@@ -10,6 +10,7 @@ import { fetchRepoLanguages } from "./github-client";
 
 const LANGUAGE_FETCH_LIMIT = 15;
 const WEEKDAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const WEEKDAY_FULL  = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
 const LANGUAGE_COLORS: Record<string, string> = {
   TypeScript: "#3178c6", JavaScript: "#f1e05a", Python: "#3572A5",
@@ -71,40 +72,76 @@ async function computeLanguages(repos: GitHubRepo[]): Promise<LanguageEntry[]> {
     }));
 }
 
+// ── Streak calculation ────────────────────────────────────────────────────────
+
+function computeStreak(daily: DailyActivity[]): { current: number; longest: number } {
+  let current = 0, longest = 0, running = 0;
+  for (const d of daily) {
+    if (d.count > 0) { running++; longest = Math.max(longest, running); }
+    else { running = 0; }
+  }
+  // Current streak counts backward from the last day
+  for (let i = daily.length - 1; i >= 0; i--) {
+    if (daily[i].count > 0) current++;
+    else break;
+  }
+  return { current, longest };
+}
+
 // ── Activity computation ──────────────────────────────────────────────────────
 
-function computeActivity(events: GitHubEvent[]): ActivityBreakdown {
+function computeActivity(events: GitHubEvent[], username: string): ActivityBreakdown {
   const cutoff30 = daysAgo(30);
   const cutoff90 = daysAgo(90);
 
-  // Pre-fill 90-day map (used for heatmap)
+  // Pre-fill 90-day map (heatmap + area chart)
   const map90: Record<string, number> = {};
-  for (let i = 89; i >= 0; i--) {
-    map90[daysAgo(i).toISOString().slice(0, 10)] = 0;
-  }
+  for (let i = 89; i >= 0; i--) map90[daysAgo(i).toISOString().slice(0, 10)] = 0;
 
-  // Pre-fill 30-day map (used for area chart)
+  // Pre-fill 30-day map (stat pills)
   const map30: Record<string, number> = {};
-  for (let i = 29; i >= 0; i--) {
-    map30[daysAgo(i).toISOString().slice(0, 10)] = 0;
-  }
+  for (let i = 29; i >= 0; i--) map30[daysAgo(i).toISOString().slice(0, 10)] = 0;
 
-  const weekdayCounts = [0, 0, 0, 0, 0, 0, 0];
+  const weekdayCounts30 = [0, 0, 0, 0, 0, 0, 0]; // 30d for chart
+  const weekdayCounts90 = [0, 0, 0, 0, 0, 0, 0]; // 90d for mostActiveDay
+  const hourCounts = new Array(24).fill(0) as number[];
+
   let pushEvents = 0, prEvents = 0, issueEvents = 0, otherEvents = 0;
+  let prOpened = 0, issuesOpened = 0, codeReviews = 0;
+  let linesAdded = 0, linesDeleted = 0;
+  const foreignRepos = new Set<string>();
 
   for (const ev of events) {
     const evDate = new Date(ev.created_at);
     if (evDate < cutoff90) continue;
 
     const key = toDateStr(ev.created_at);
-
-    // Always add to 90-day map
     map90[key] = (map90[key] ?? 0) + 1;
+    weekdayCounts90[evDate.getUTCDay()]++;
+    hourCounts[evDate.getUTCHours()]++;
 
-    // Only add to 30-day counters/map if within 30 days
+    // Contributed-to: repos not owned by this user
+    const [owner] = ev.repo.name.split("/");
+    if (owner.toLowerCase() !== username.toLowerCase()) {
+      foreignRepos.add(ev.repo.name);
+    }
+
+    // PR metrics
+    if (ev.type === "PullRequestEvent") {
+      if (ev.payload.action === "opened") prOpened++;
+      const pr = ev.payload.pull_request;
+      if (pr?.additions) linesAdded += pr.additions;
+      if (pr?.deletions) linesDeleted += pr.deletions;
+    } else if (ev.type === "IssuesEvent" && ev.payload.action === "opened") {
+      issuesOpened++;
+    } else if (ev.type === "PullRequestReviewEvent") {
+      codeReviews++;
+    }
+
+    // 30-day counters
     if (evDate >= cutoff30) {
       map30[key] = (map30[key] ?? 0) + 1;
-      weekdayCounts[evDate.getUTCDay()]++;
+      weekdayCounts30[evDate.getUTCDay()]++;
       if (ev.type === "PushEvent") pushEvents++;
       else if (ev.type === "PullRequestEvent") prEvents++;
       else if (ev.type === "IssuesEvent" || ev.type === "IssueCommentEvent") issueEvents++;
@@ -112,21 +149,32 @@ function computeActivity(events: GitHubEvent[]): ActivityBreakdown {
     }
   }
 
-  const daily: DailyActivity[] = Object.entries(map30)
-    .sort(([a], [b]) => a.localeCompare(b))
-    .map(([date, count]) => ({ date, count }));
-
   const daily90: DailyActivity[] = Object.entries(map90)
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([date, count]) => ({ date, count }));
 
+  const { current: currentStreak, longest: longestStreak } = computeStreak(daily90);
+
+  const peakHour = hourCounts.indexOf(Math.max(...hourCounts));
+  const maxDayIdx = weekdayCounts90.indexOf(Math.max(...weekdayCounts90));
+  const mostActiveDay = WEEKDAY_FULL[maxDayIdx] ?? "Unknown";
+
+  const daily: DailyActivity[] = Object.entries(map30)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([date, count]) => ({ date, count }));
+
   const byWeekday: WeekdayActivity[] = WEEKDAY_LABELS.map((day, i) => ({
-    day, count: weekdayCounts[i],
+    day, count: weekdayCounts30[i],
   }));
 
   return {
     pushEvents, prEvents, issueEvents, otherEvents,
     total: pushEvents + prEvents + issueEvents + otherEvents,
+    prOpened, issuesOpened, codeReviews,
+    contributedTo: foreignRepos.size,
+    linesAdded, linesDeleted,
+    currentStreak, longestStreak,
+    mostActiveDay, peakHour,
     daily, daily90, byWeekday,
   };
 }
@@ -196,7 +244,7 @@ export async function computeDashboard(
 ): Promise<DashboardData> {
   const [languages, activity] = await Promise.all([
     computeLanguages(repos),
-    Promise.resolve(computeActivity(events)),
+    Promise.resolve(computeActivity(events, user.login)),
   ]);
 
   const insights = computeInsights(events, languages);

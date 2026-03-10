@@ -33,7 +33,7 @@ const STAT_ITEMS = [
 ] as const;
 
 export function ActivityCharts({ activity }: Props) {
-  const dailyData = activity.daily.map((d) => ({
+  const dailyData = activity.daily90.map((d) => ({
     ...d,
     label: fmtDate(d.date),
   }));
@@ -44,7 +44,7 @@ export function ActivityCharts({ activity }: Props) {
       <div style={CARD} className="p-4 sm:p-5">
         <div style={{ borderBottom: "1px solid #21262d" }} className="pb-3 mb-4">
           <h3 className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#484f58" }}>
-            Activity — Last 30 Days
+            Activity — Last 90 Days
           </h3>
         </div>
 

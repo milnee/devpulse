@@ -11,6 +11,7 @@ import { CopyLinkButton } from "@/components/dashboard/CopyLinkButton";
 import { RefreshButton } from "@/components/dashboard/RefreshButton";
 import { RecentCommits } from "@/components/dashboard/RecentCommits";
 import { ContributionHeatmap } from "@/components/dashboard/ContributionHeatmap";
+import { StatsGrid } from "@/components/dashboard/StatsGrid";
 import type { ApiResponse } from "@/lib/types";
 
 interface Props {
@@ -88,9 +89,18 @@ export default async function UserPage({ params }: Props) {
         totalForks={data.totalForks}
       />
 
+      {/* Contribution stats grid */}
+      <div className="mt-4 sm:mt-5">
+        <StatsGrid activity={data.activity} />
+      </div>
+
       {/* Contribution heatmap — full width */}
       <div className="mt-4 sm:mt-5">
-        <ContributionHeatmap daily90={data.activity.daily90} />
+        <ContributionHeatmap
+          daily90={data.activity.daily90}
+          currentStreak={data.activity.currentStreak}
+          longestStreak={data.activity.longestStreak}
+        />
       </div>
 
       {/* Main grid */}
@@ -98,7 +108,7 @@ export default async function UserPage({ params }: Props) {
 
         {/* Mobile: sidebar on top */}
         <div className="lg:hidden space-y-4">
-          <InsightsCard insights={data.insights} />
+          <InsightsCard insights={data.insights} activity={data.activity} />
           <LanguageChart languages={data.languages} />
         </div>
 
@@ -114,7 +124,7 @@ export default async function UserPage({ params }: Props) {
 
         {/* Right: 1/3 — desktop only */}
         <div className="hidden lg:flex lg:flex-col lg:space-y-5">
-          <InsightsCard insights={data.insights} />
+          <InsightsCard insights={data.insights} activity={data.activity} />
           <LanguageChart languages={data.languages} />
         </div>
       </div>

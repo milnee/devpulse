@@ -5,6 +5,8 @@ import type { DailyActivity } from "@/lib/types";
 
 interface Props {
   daily90: DailyActivity[];
+  currentStreak: number;
+  longestStreak: number;
 }
 
 // Blue-toned intensity scale matching our theme
@@ -24,7 +26,7 @@ const CARD = {
 
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
-export function ContributionHeatmap({ daily90 }: Props) {
+export function ContributionHeatmap({ daily90, currentStreak, longestStreak }: Props) {
   const [tooltip, setTooltip] = useState<{ date: string; count: number; x: number; y: number } | null>(null);
 
   if (daily90.length === 0) return null;
@@ -68,13 +70,25 @@ export function ContributionHeatmap({ daily90 }: Props) {
 
   return (
     <div style={CARD} className="p-4 sm:p-5">
-      <div style={{ borderBottom: "1px solid #21262d" }} className="pb-3 mb-4 flex items-center justify-between">
+      <div style={{ borderBottom: "1px solid #21262d" }} className="pb-3 mb-4 flex flex-wrap items-center justify-between gap-2">
         <h3 className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#484f58" }}>
           Contribution Activity
         </h3>
-        <span className="text-xs" style={{ color: "#484f58" }}>
-          {totalInPeriod} events · 90 days
-        </span>
+        <div className="flex items-center gap-4 text-xs">
+          {currentStreak > 0 && (
+            <span className="flex items-center gap-1">
+              <span style={{ color: "#ffa657" }}>🔥</span>
+              <span style={{ color: "#e6edf3" }} className="font-semibold">{currentStreak}</span>
+              <span style={{ color: "#484f58" }}>day streak</span>
+            </span>
+          )}
+          {longestStreak > 0 && (
+            <span style={{ color: "#484f58" }}>
+              best <span style={{ color: "#8b949e" }}>{longestStreak}d</span>
+            </span>
+          )}
+          <span style={{ color: "#484f58" }}>{totalInPeriod} events · 90 days</span>
+        </div>
       </div>
 
       <div className="overflow-x-auto">
