@@ -2,6 +2,7 @@
 
 import { Star, GitFork, ExternalLink } from "lucide-react";
 import type { RepoSummary } from "@/lib/types";
+import { timeAgo } from "@/lib/utils";
 
 interface Props {
   title: string;
@@ -61,17 +62,20 @@ export function RepoList({ title, repos }: Props) {
                   {repo.description}
                 </p>
               )}
-              {repo.language && (
-                <div className="flex items-center gap-1 mt-1.5">
-                  <span
-                    className="w-2 h-2 rounded-full"
-                    style={{ background: LANG_COLORS[repo.language] ?? "#8b949e" }}
-                  />
-                  <span className="text-xs" style={{ color: "#8b949e" }}>
-                    {repo.language}
-                  </span>
-                </div>
-              )}
+              <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                {repo.language && (
+                  <div className="flex items-center gap-1">
+                    <span
+                      className="w-2 h-2 rounded-full shrink-0"
+                      style={{ background: LANG_COLORS[repo.language] ?? "#8b949e" }}
+                    />
+                    <span className="text-xs" style={{ color: "#8b949e" }}>{repo.language}</span>
+                  </div>
+                )}
+                <span className="text-xs" style={{ color: "#484f58" }}>
+                  {timeAgo(repo.updated_at)}
+                </span>
+              </div>
             </div>
             <div className="flex items-center gap-3 text-xs shrink-0" style={{ color: "#484f58" }}>
               <span className="flex items-center gap-0.5">

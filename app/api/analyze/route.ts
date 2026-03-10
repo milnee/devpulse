@@ -21,10 +21,11 @@ export async function GET(request: NextRequest): Promise<NextResponse<ApiRespons
   }
 
   const { username } = parsed;
+  const nocache = searchParams.get("nocache") === "1";
 
   // ── 2. Check cache ─────────────────────────────────────────────────────────
   try {
-    const cached = await cacheGet(username);
+    const cached = !nocache && await cacheGet(username);
     if (cached) {
       return NextResponse.json(
         { ok: true, data: cached },

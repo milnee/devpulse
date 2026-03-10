@@ -8,6 +8,9 @@ import { LanguageChart } from "@/components/dashboard/LanguageChart";
 import { ActivityCharts } from "@/components/dashboard/ActivityCharts";
 import { InsightsCard } from "@/components/dashboard/InsightsCard";
 import { CopyLinkButton } from "@/components/dashboard/CopyLinkButton";
+import { RefreshButton } from "@/components/dashboard/RefreshButton";
+import { RecentCommits } from "@/components/dashboard/RecentCommits";
+import { ContributionHeatmap } from "@/components/dashboard/ContributionHeatmap";
 import type { ApiResponse } from "@/lib/types";
 
 interface Props {
@@ -72,7 +75,10 @@ export default async function UserPage({ params }: Props) {
         <div className="flex-1 min-w-0">
           <SearchForm defaultValue={username} compact />
         </div>
-        <CopyLinkButton />
+        <div className="flex items-center gap-2 shrink-0">
+          <RefreshButton username={username} />
+          <CopyLinkButton />
+        </div>
       </div>
 
       {/* Profile */}
@@ -82,10 +88,15 @@ export default async function UserPage({ params }: Props) {
         totalForks={data.totalForks}
       />
 
-      {/* Main grid: single col on mobile, 3-col on desktop */}
+      {/* Contribution heatmap — full width */}
+      <div className="mt-4 sm:mt-5">
+        <ContributionHeatmap daily90={data.activity.daily90} />
+      </div>
+
+      {/* Main grid */}
       <div className="mt-4 sm:mt-5 grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
 
-        {/* On mobile: insights + languages first (sidebar goes to top) */}
+        {/* Mobile: sidebar on top */}
         <div className="lg:hidden space-y-4">
           <InsightsCard insights={data.insights} />
           <LanguageChart languages={data.languages} />
@@ -94,13 +105,14 @@ export default async function UserPage({ params }: Props) {
         {/* Left: 2/3 */}
         <div className="lg:col-span-2 space-y-4 sm:space-y-5">
           <ActivityCharts activity={data.activity} />
+          <RecentCommits commits={data.commits} />
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
             <RepoList title="Most Starred" repos={data.mostStarredRepos} />
             <RepoList title="Recently Updated" repos={data.recentlyUpdatedRepos} />
           </div>
         </div>
 
-        {/* Right: 1/3 — hidden on mobile (shown above instead) */}
+        {/* Right: 1/3 — desktop only */}
         <div className="hidden lg:flex lg:flex-col lg:space-y-5">
           <InsightsCard insights={data.insights} />
           <LanguageChart languages={data.languages} />

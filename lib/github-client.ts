@@ -62,13 +62,18 @@ export async function fetchRepos(username: string): Promise<GitHubRepo[]> {
 }
 
 /**
- * Fetch up to 100 public events for a user (GitHub caps at 300 total).
- * Covers roughly the last 30–90 days of activity.
+ * Fetch up to 300 public events (3 pages × 100) for 90-day coverage.
+ * Pages 2 and 3 are optional — tolerate failure so sparse accounts still work.
+ * GitHub hard-caps at 300 total events regardless of pagination.
  */
 export async function fetchEvents(username: string): Promise<GitHubEvent[]> {
-  return ghFetch<GitHubEvent[]>(
-    `/users/${encodeURIComponent(username)}/events/public?per_page=100`
-  );
+  const u = encodeURIComponent(username);
+  const [p1, p2, p3] = await Promise.all([
+    ghFetch<GitHubEvent[]>(`/users/${u}/events/public?per_page=100&page=1`),
+    ghFetch<GitHubEvent[]>(`/users/${u}/events/public?per_page=100&page=2`).catch(() => [] as GitHubEvent[]),
+    ghFetch<GitHubEvent[]>(`/users/${u}/events/public?per_page=100&page=3`).catch(() => [] as GitHubEvent[]),
+  ]);
+  return [...p1, ...p2, ...p3];
 }
 
 /**

@@ -37,12 +37,9 @@ export interface GitHubRepo {
 }
 
 export interface GitHubEventPayload {
-  // push event
-  commits?: { message: string }[];
-  // pr event
+  commits?: { message: string; sha?: string }[];
   action?: string;
   pull_request?: { title: string };
-  // issue event
   issue?: { title: string };
 }
 
@@ -75,32 +72,42 @@ export interface RepoSummary {
   pushed_at: string;
 }
 
-/** One data-point per day in YYYY-MM-DD format */
+/** A single commit extracted from a PushEvent */
+export interface CommitSummary {
+  repo: string;      // repo name without owner
+  repoUrl: string;   // https://github.com/owner/repo
+  message: string;   // first line, max 80 chars
+  pushedAt: string;  // ISO timestamp of the push event
+}
+
 export interface DailyActivity {
-  date: string;
+  date: string;  // YYYY-MM-DD
   count: number;
 }
 
-/** Weekday buckets: 0=Sunday … 6=Saturday */
 export interface WeekdayActivity {
-  day: string; // "Sun", "Mon", …
+  day: string;   // "Sun" … "Sat"
   count: number;
 }
 
 export interface ActivityBreakdown {
+  // Counts are for the last 30 days
   pushEvents: number;
   prEvents: number;
   issueEvents: number;
   otherEvents: number;
   total: number;
+  // 30-day daily data for area chart
   daily: DailyActivity[];
+  // 90-day daily data for contribution heatmap
+  daily90: DailyActivity[];
   byWeekday: WeekdayActivity[];
 }
 
 export interface Insights {
   mostActiveRepo: string | null;
   mostUsedLanguage: string | null;
-  activityTrend: number; // percentage change vs previous 30 days (can be negative)
+  activityTrend: number;
   totalCommitsEstimate: number;
 }
 
@@ -115,8 +122,9 @@ export interface DashboardData {
   recentlyUpdatedRepos: RepoSummary[];
   languages: LanguageEntry[];
   activity: ActivityBreakdown;
+  commits: CommitSummary[];
   insights: Insights;
-  cachedAt: string; // ISO timestamp
+  cachedAt: string;
   dataSource: "github-public-api";
 }
 

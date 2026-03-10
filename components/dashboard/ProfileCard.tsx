@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { MapPin, Link2, Building2, Users, BookOpen, Star, GitFork } from "lucide-react";
+import { MapPin, Link2, Building2, Users, BookOpen, Star, GitFork, ExternalLink } from "lucide-react";
 import type { GitHubUser } from "@/lib/types";
 
 interface Props {
@@ -63,17 +63,33 @@ export function ProfileCard({ user, totalStars, totalForks }: Props) {
             </span>
           </div>
 
-          {/* Joined badge */}
-          <span
-            className="inline-block text-xs px-2 py-0.5 rounded-full font-medium mb-2"
-            style={{
-              background: "rgba(88,166,255,0.1)",
-              border: "1px solid rgba(88,166,255,0.2)",
-              color: "#58a6ff",
-            }}
-          >
-            Joined {joined}
-          </span>
+          {/* Badges row */}
+          <div className="flex flex-wrap items-center gap-2 mb-2">
+            <span
+              className="inline-block text-xs px-2 py-0.5 rounded-full font-medium"
+              style={{
+                background: "rgba(88,166,255,0.1)",
+                border: "1px solid rgba(88,166,255,0.2)",
+                color: "#58a6ff",
+              }}
+            >
+              Joined {joined}
+            </span>
+            <a
+              href={user.html_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full font-medium transition-colors"
+              style={{
+                background: "rgba(255,255,255,0.05)",
+                border: "1px solid #30363d",
+                color: "#8b949e",
+              }}
+            >
+              <ExternalLink size={10} />
+              GitHub
+            </a>
+          </div>
 
           {/* Bio — hidden on very small, shown on sm+ */}
           {user.bio && (
