@@ -34,7 +34,7 @@ export function Header() {
             About
           </Link>
           <a
-            href="https://github.com"
+            href="https://github.com/milnee/devpulse"
             target="_blank"
             rel="noopener noreferrer"
             className="transition-colors hover:text-white"
