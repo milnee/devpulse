@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Header } from "@/components/Header";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -28,13 +29,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="scroll-smooth dark">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
-        style={{ backgroundColor: "#0d1117", color: "#e6edf3" }}
-      >
-        <Header />
-        <main className="pt-14">{children}</main>
+    <html lang="en" className="scroll-smooth" data-theme="dark">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}>
+        <ThemeProvider>
+          <Header />
+          <main className="pt-14">{children}</main>
+        </ThemeProvider>
       </body>
     </html>
   );

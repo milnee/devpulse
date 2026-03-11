@@ -36,10 +36,17 @@ function toRepoSummary(r: GitHubRepo): RepoSummary {
   };
 }
 
-function toDateStr(iso: string): string { return iso.slice(0, 10); }
+/**
+ * Convert a UTC ISO string to a local date string (YYYY-MM-DD)
+ * using the provided timezone offset in minutes east of UTC.
+ */
+function toLocalDateStr(isoStr: string, tzOffsetMin: number): string {
+  const ms = new Date(isoStr).getTime() + tzOffsetMin * 60_000;
+  return new Date(ms).toISOString().slice(0, 10);
+}
 
-function daysAgo(n: number): Date {
-  const d = new Date();
+function daysAgo(n: number, tzOffsetMin = 0): Date {
+  const d = new Date(Date.now() + tzOffsetMin * 60_000);
   d.setUTCDate(d.getUTCDate() - n);
   return d;
 }
@@ -90,17 +97,25 @@ function computeStreak(daily: DailyActivity[]): { current: number; longest: numb
 
 // ── Activity computation ──────────────────────────────────────────────────────
 
-function computeActivity(events: GitHubEvent[], username: string): ActivityBreakdown {
-  const cutoff30 = daysAgo(30);
-  const cutoff90 = daysAgo(90);
+function computeActivity(
+  events: GitHubEvent[],
+  username: string,
+  tzOffsetMin = 0,
+): ActivityBreakdown {
+  const cutoff30 = daysAgo(30, tzOffsetMin);
+  const cutoff90 = daysAgo(90, tzOffsetMin);
 
   // Pre-fill 90-day map (heatmap + area chart)
   const map90: Record<string, number> = {};
-  for (let i = 89; i >= 0; i--) map90[daysAgo(i).toISOString().slice(0, 10)] = 0;
+  for (let i = 89; i >= 0; i--) {
+    map90[daysAgo(i, tzOffsetMin).toISOString().slice(0, 10)] = 0;
+  }
 
   // Pre-fill 30-day map (stat pills)
   const map30: Record<string, number> = {};
-  for (let i = 29; i >= 0; i--) map30[daysAgo(i).toISOString().slice(0, 10)] = 0;
+  for (let i = 29; i >= 0; i--) {
+    map30[daysAgo(i, tzOffsetMin).toISOString().slice(0, 10)] = 0;
+  }
 
   const weekdayCounts30 = [0, 0, 0, 0, 0, 0, 0]; // 30d for chart
   const weekdayCounts90 = [0, 0, 0, 0, 0, 0, 0]; // 90d for mostActiveDay
@@ -115,10 +130,14 @@ function computeActivity(events: GitHubEvent[], username: string): ActivityBreak
     const evDate = new Date(ev.created_at);
     if (evDate < cutoff90) continue;
 
-    const key = toDateStr(ev.created_at);
+    // Use local date for bucketing (timezone-aware)
+    const key = toLocalDateStr(ev.created_at, tzOffsetMin);
     map90[key] = (map90[key] ?? 0) + 1;
-    weekdayCounts90[evDate.getUTCDay()]++;
-    hourCounts[evDate.getUTCHours()]++;
+
+    // Weekday & hour still in local time
+    const localDate = new Date(evDate.getTime() + tzOffsetMin * 60_000);
+    weekdayCounts90[localDate.getUTCDay()]++;
+    hourCounts[localDate.getUTCHours()]++;
 
     // Contributed-to: repos not owned by this user
     const [owner] = ev.repo.name.split("/");
@@ -141,7 +160,7 @@ function computeActivity(events: GitHubEvent[], username: string): ActivityBreak
     // 30-day counters
     if (evDate >= cutoff30) {
       map30[key] = (map30[key] ?? 0) + 1;
-      weekdayCounts30[evDate.getUTCDay()]++;
+      weekdayCounts30[localDate.getUTCDay()]++;
       if (ev.type === "PushEvent") pushEvents++;
       else if (ev.type === "PullRequestEvent") prEvents++;
       else if (ev.type === "IssuesEvent" || ev.type === "IssueCommentEvent") issueEvents++;
@@ -240,11 +259,14 @@ function computeInsights(events: GitHubEvent[], languages: LanguageEntry[]): Ins
 // ── Main entry-point ──────────────────────────────────────────────────────────
 
 export async function computeDashboard(
-  user: GitHubUser, repos: GitHubRepo[], events: GitHubEvent[]
+  user: GitHubUser,
+  repos: GitHubRepo[],
+  events: GitHubEvent[],
+  tzOffsetMin = 0,
 ): Promise<DashboardData> {
   const [languages, activity] = await Promise.all([
     computeLanguages(repos),
-    Promise.resolve(computeActivity(events, user.login)),
+    Promise.resolve(computeActivity(events, user.login, tzOffsetMin)),
   ]);
 
   const insights = computeInsights(events, languages);

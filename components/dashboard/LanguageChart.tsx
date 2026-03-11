@@ -8,34 +8,34 @@ interface Props {
 }
 
 const CARD = {
-  background: "#161b22",
-  border: "1px solid #30363d",
+  background: "var(--bg-card)",
+  border: "1px solid var(--border)",
   borderRadius: "12px",
 };
 
 const TOOLTIP_STYLE = {
-  background: "#1c2128",
-  border: "1px solid #30363d",
+  background: "var(--bg-elevated)",
+  border: "1px solid var(--border)",
   borderRadius: "8px",
   boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
   fontSize: "12px",
-  color: "#e6edf3",
+  color: "var(--text)",
 };
 
 export function LanguageChart({ languages }: Props) {
   return (
     <div style={CARD} className="p-5">
-      <div style={{ borderBottom: "1px solid #21262d" }} className="pb-3 mb-4">
+      <div style={{ borderBottom: "1px solid var(--border-muted)" }} className="pb-3 mb-4">
         <h3
           className="text-xs font-semibold uppercase tracking-widest"
-          style={{ color: "#484f58" }}
+          style={{ color: "var(--text-dim)" }}
         >
           Languages
         </h3>
       </div>
 
       {languages.length === 0 ? (
-        <p className="text-sm py-4 text-center" style={{ color: "#484f58" }}>
+        <p className="text-sm py-4 text-center" style={{ color: "var(--text-dim)" }}>
           No language data available.
         </p>
       ) : (
@@ -76,12 +76,12 @@ export function LanguageChart({ languages }: Props) {
                   className="w-2 h-2 rounded-full shrink-0"
                   style={{ background: lang.color }}
                 />
-                <span className="text-xs w-20 truncate" style={{ color: "#8b949e" }}>
+                <span className="text-xs w-20 truncate" style={{ color: "var(--text-muted)" }}>
                   {lang.language}
                 </span>
                 <div
                   className="flex-1 h-1.5 rounded-full overflow-hidden"
-                  style={{ background: "#21262d" }}
+                  style={{ background: "var(--border-muted)" }}
                 >
                   <div
                     className="h-full rounded-full"
@@ -92,7 +92,7 @@ export function LanguageChart({ languages }: Props) {
                     }}
                   />
                 </div>
-                <span className="text-xs w-9 text-right" style={{ color: "#484f58" }}>
+                <span className="text-xs w-9 text-right" style={{ color: "var(--text-dim)" }}>
                   {lang.percentage}%
                 </span>
               </div>

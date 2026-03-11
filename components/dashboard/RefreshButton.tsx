@@ -30,9 +30,9 @@ export function RefreshButton({ username }: Props) {
       disabled={loading}
       className="flex items-center gap-1.5 px-3 h-9 rounded-lg text-xs font-medium transition-all disabled:opacity-50"
       style={{
-        background: "#1c2128",
-        border: "1px solid #30363d",
-        color: "#8b949e",
+        background: "var(--bg-elevated)",
+        border: "1px solid var(--border)",
+        color: "var(--text-muted)",
       }}
       title="Force refresh — bypasses 6-hour cache"
     >

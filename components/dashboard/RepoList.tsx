@@ -21,18 +21,18 @@ export function RepoList({ title, repos }: Props) {
   return (
     <div
       className="rounded-xl"
-      style={{ background: "#161b22", border: "1px solid #30363d" }}
+      style={{ background: "var(--bg-card)", border: "1px solid var(--border)" }}
     >
       {/* Header */}
-      <div className="px-5 pt-4 pb-3" style={{ borderBottom: "1px solid #21262d" }}>
-        <h3 className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#484f58" }}>
+      <div className="px-5 pt-4 pb-3" style={{ borderBottom: "1px solid var(--border-muted)" }}>
+        <h3 className="text-xs font-semibold uppercase tracking-widest" style={{ color: "var(--text-dim)" }}>
           {title}
         </h3>
       </div>
 
       <div className="p-3 space-y-1">
         {repos.length === 0 && (
-          <p className="text-sm px-2 py-3" style={{ color: "#484f58" }}>
+          <p className="text-sm px-2 py-3" style={{ color: "var(--text-dim)" }}>
             No repositories found.
           </p>
         )}
@@ -41,7 +41,7 @@ export function RepoList({ title, repos }: Props) {
             key={repo.full_name}
             className="flex items-start justify-between gap-3 px-2 py-2.5 rounded-lg transition-colors group"
             style={{ borderRadius: "8px" }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "#1c2128")}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "var(--bg-elevated)")}
             onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
           >
             <div className="min-w-0 flex-1">
@@ -50,15 +50,15 @@ export function RepoList({ title, repos }: Props) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-sm font-medium transition-colors truncate"
-                style={{ color: "#e6edf3" }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#58a6ff")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "#e6edf3")}
+                style={{ color: "var(--text)" }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--accent)")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text)")}
               >
                 {repo.name}
-                <ExternalLink size={10} style={{ color: "#484f58" }} />
+                <ExternalLink size={10} style={{ color: "var(--text-dim)" }} />
               </a>
               {repo.description && (
-                <p className="text-xs mt-0.5 line-clamp-1" style={{ color: "#8b949e" }}>
+                <p className="text-xs mt-0.5 line-clamp-1" style={{ color: "var(--text-muted)" }}>
                   {repo.description}
                 </p>
               )}
@@ -67,17 +67,17 @@ export function RepoList({ title, repos }: Props) {
                   <div className="flex items-center gap-1">
                     <span
                       className="w-2 h-2 rounded-full shrink-0"
-                      style={{ background: LANG_COLORS[repo.language] ?? "#8b949e" }}
+                      style={{ background: LANG_COLORS[repo.language] ?? "var(--text-muted)" }}
                     />
-                    <span className="text-xs" style={{ color: "#8b949e" }}>{repo.language}</span>
+                    <span className="text-xs" style={{ color: "var(--text-muted)" }}>{repo.language}</span>
                   </div>
                 )}
-                <span className="text-xs" style={{ color: "#484f58" }}>
+                <span className="text-xs" style={{ color: "var(--text-dim)" }}>
                   {timeAgo(repo.updated_at)}
                 </span>
               </div>
             </div>
-            <div className="flex items-center gap-3 text-xs shrink-0" style={{ color: "#484f58" }}>
+            <div className="flex items-center gap-3 text-xs shrink-0" style={{ color: "var(--text-dim)" }}>
               <span className="flex items-center gap-0.5">
                 <Star size={11} />
                 {repo.stars.toLocaleString()}

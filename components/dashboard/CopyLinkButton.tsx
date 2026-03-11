@@ -26,9 +26,9 @@ export function CopyLinkButton() {
       onClick={handleCopy}
       className="flex items-center gap-1.5 px-3 h-9 rounded-lg text-xs font-medium transition-all"
       style={{
-        background: copied ? "rgba(63,185,80,0.12)" : "#1c2128",
-        border: `1px solid ${copied ? "rgba(63,185,80,0.3)" : "#30363d"}`,
-        color: copied ? "#3fb950" : "#8b949e",
+        background: copied ? "rgba(63,185,80,0.12)" : "var(--bg-elevated)",
+        border: `1px solid ${copied ? "rgba(63,185,80,0.3)" : "var(--border)"}`,
+        color: copied ? "#3fb950" : "var(--text-muted)",
       }}
     >
       {copied ? (

@@ -11,17 +11,17 @@ interface Props {
 }
 
 const TOOLTIP_STYLE = {
-  background: "#1c2128",
-  border: "1px solid #30363d",
+  background: "var(--bg-elevated)",
+  border: "1px solid var(--border)",
   borderRadius: "8px",
   boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
   fontSize: "12px",
-  color: "#e6edf3",
+  color: "var(--text)",
 };
 
 const CARD = {
-  background: "#161b22",
-  border: "1px solid #30363d",
+  background: "var(--bg-card)",
+  border: "1px solid var(--border)",
   borderRadius: "12px",
 };
 
@@ -42,8 +42,8 @@ export function ActivityCharts({ activity }: Props) {
     <div className="space-y-4">
       {/* Daily activity */}
       <div style={CARD} className="p-4 sm:p-5">
-        <div style={{ borderBottom: "1px solid #21262d" }} className="pb-3 mb-4">
-          <h3 className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#484f58" }}>
+        <div style={{ borderBottom: "1px solid var(--border-muted)" }} className="pb-3 mb-4">
+          <h3 className="text-xs font-semibold uppercase tracking-widest" style={{ color: "var(--text-dim)" }}>
             Activity — Last 90 Days
           </h3>
         </div>
@@ -55,7 +55,7 @@ export function ActivityCharts({ activity }: Props) {
               <span className="text-lg sm:text-xl font-bold" style={{ color }}>
                 {activity[key]}
               </span>
-              <span className="text-xs" style={{ color: "#484f58" }}>{label}</span>
+              <span className="text-xs" style={{ color: "var(--text-dim)" }}>{label}</span>
             </div>
           ))}
         </div>
@@ -68,16 +68,16 @@ export function ActivityCharts({ activity }: Props) {
                 <stop offset="100%" stopColor="#58a6ff" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--border-muted)" />
             <XAxis
               dataKey="label"
-              tick={{ fontSize: 9, fill: "#484f58" }}
+              tick={{ fontSize: 9, fill: "var(--text-dim)" }}
               tickLine={false}
               axisLine={false}
               interval="preserveStartEnd"
             />
             <YAxis
-              tick={{ fontSize: 9, fill: "#484f58" }}
+              tick={{ fontSize: 9, fill: "var(--text-dim)" }}
               tickLine={false}
               axisLine={false}
               allowDecimals={false}
@@ -85,7 +85,7 @@ export function ActivityCharts({ activity }: Props) {
             />
             <Tooltip
               contentStyle={TOOLTIP_STYLE}
-              labelStyle={{ color: "#8b949e", marginBottom: 4 }}
+              labelStyle={{ color: "var(--text-muted)", marginBottom: 4 }}
               itemStyle={{ color: "#58a6ff" }}
               formatter={(v) => [v ?? 0, "events"]}
             />
@@ -104,23 +104,23 @@ export function ActivityCharts({ activity }: Props) {
 
       {/* Weekday breakdown */}
       <div style={CARD} className="p-4 sm:p-5">
-        <div style={{ borderBottom: "1px solid #21262d" }} className="pb-3 mb-4">
-          <h3 className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#484f58" }}>
+        <div style={{ borderBottom: "1px solid var(--border-muted)" }} className="pb-3 mb-4">
+          <h3 className="text-xs font-semibold uppercase tracking-widest" style={{ color: "var(--text-dim)" }}>
             Activity by Weekday
           </h3>
         </div>
 
         <ResponsiveContainer width="100%" height={130}>
           <BarChart data={activity.byWeekday} margin={{ top: 4, right: 4, left: -32, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#21262d" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--border-muted)" vertical={false} />
             <XAxis
               dataKey="day"
-              tick={{ fontSize: 10, fill: "#484f58" }}
+              tick={{ fontSize: 10, fill: "var(--text-dim)" }}
               tickLine={false}
               axisLine={false}
             />
             <YAxis
-              tick={{ fontSize: 9, fill: "#484f58" }}
+              tick={{ fontSize: 9, fill: "var(--text-dim)" }}
               tickLine={false}
               axisLine={false}
               allowDecimals={false}
@@ -128,7 +128,7 @@ export function ActivityCharts({ activity }: Props) {
             />
             <Tooltip
               contentStyle={TOOLTIP_STYLE}
-              labelStyle={{ color: "#8b949e", marginBottom: 4 }}
+              labelStyle={{ color: "var(--text-muted)", marginBottom: 4 }}
               itemStyle={{ color: "#a371f7" }}
               formatter={(v) => [v ?? 0, "events"]}
             />

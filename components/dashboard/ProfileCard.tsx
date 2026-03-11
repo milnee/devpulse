@@ -11,8 +11,8 @@ interface Props {
 }
 
 const CARD = {
-  background: "#161b22",
-  border: "1px solid #30363d",
+  background: "var(--bg-card)",
+  border: "1px solid var(--border)",
   borderRadius: "12px",
 };
 
@@ -46,7 +46,7 @@ export function ProfileCard({ user, totalStars, totalForks }: Props) {
             width={72}
             height={72}
             className="relative rounded-full sm:w-[88px] sm:h-[88px]"
-            style={{ border: "3px solid #0d1117", width: 72, height: 72 }}
+            style={{ border: "3px solid var(--bg)", width: 72, height: 72 }}
             unoptimized
           />
         </div>
@@ -55,10 +55,10 @@ export function ProfileCard({ user, totalStars, totalForks }: Props) {
         <div className="flex-1 min-w-0">
           {/* Name row */}
           <div className="flex flex-wrap items-center gap-1.5 mb-1">
-            <h2 className="text-base sm:text-xl font-bold truncate" style={{ color: "#e6edf3" }}>
+            <h2 className="text-base sm:text-xl font-bold truncate" style={{ color: "var(--text)" }}>
               {user.name ?? user.login}
             </h2>
-            <span className="text-xs sm:text-sm" style={{ color: "#8b949e" }}>
+            <span className="text-xs sm:text-sm" style={{ color: "var(--text-muted)" }}>
               @{user.login}
             </span>
           </div>
@@ -82,8 +82,8 @@ export function ProfileCard({ user, totalStars, totalForks }: Props) {
               className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full font-medium transition-colors"
               style={{
                 background: "rgba(255,255,255,0.05)",
-                border: "1px solid #30363d",
-                color: "#8b949e",
+                border: "1px solid var(--border)",
+                color: "var(--text-muted)",
               }}
             >
               <ExternalLink size={10} />
@@ -93,7 +93,7 @@ export function ProfileCard({ user, totalStars, totalForks }: Props) {
 
           {/* Bio — hidden on very small, shown on sm+ */}
           {user.bio && (
-            <p className="hidden sm:block text-sm leading-relaxed mb-2" style={{ color: "#8b949e" }}>
+            <p className="hidden sm:block text-sm leading-relaxed mb-2" style={{ color: "var(--text-muted)" }}>
               {user.bio}
             </p>
           )}
@@ -101,12 +101,12 @@ export function ProfileCard({ user, totalStars, totalForks }: Props) {
           {/* Meta links */}
           <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs">
             {user.company && (
-              <span className="flex items-center gap-1" style={{ color: "#8b949e" }}>
+              <span className="flex items-center gap-1" style={{ color: "var(--text-muted)" }}>
                 <Building2 size={11} />{user.company}
               </span>
             )}
             {user.location && (
-              <span className="flex items-center gap-1" style={{ color: "#8b949e" }}>
+              <span className="flex items-center gap-1" style={{ color: "var(--text-muted)" }}>
                 <MapPin size={11} />{user.location}
               </span>
             )}
@@ -116,7 +116,7 @@ export function ProfileCard({ user, totalStars, totalForks }: Props) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-1"
-                style={{ color: "#58a6ff" }}
+                style={{ color: "var(--accent)" }}
               >
                 <Link2 size={11} />
                 <span className="truncate max-w-[120px]">{user.blog}</span>
@@ -128,7 +128,7 @@ export function ProfileCard({ user, totalStars, totalForks }: Props) {
 
       {/* Bio on mobile (below avatar row) */}
       {user.bio && (
-        <p className="sm:hidden mt-3 text-sm leading-relaxed" style={{ color: "#8b949e" }}>
+        <p className="sm:hidden mt-3 text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
           {user.bio}
         </p>
       )}
@@ -136,15 +136,15 @@ export function ProfileCard({ user, totalStars, totalForks }: Props) {
       {/* Stats grid */}
       <div
         className="mt-4 pt-4 grid grid-cols-5 gap-2"
-        style={{ borderTop: "1px solid #21262d" }}
+        style={{ borderTop: "1px solid var(--border-muted)" }}
       >
         {stats.map(({ icon: Icon, label, value }) => (
           <div key={label} className="flex flex-col items-center text-center gap-1">
-            <Icon size={12} style={{ color: "#484f58" }} />
-            <span className="text-sm sm:text-lg font-bold leading-none" style={{ color: "#e6edf3" }}>
+            <Icon size={12} style={{ color: "var(--text-dim)" }} />
+            <span className="text-sm sm:text-lg font-bold leading-none" style={{ color: "var(--text)" }}>
               {value}
             </span>
-            <span className="text-[10px] sm:text-xs leading-tight" style={{ color: "#484f58" }}>
+            <span className="text-[10px] sm:text-xs leading-tight" style={{ color: "var(--text-dim)" }}>
               {label}
             </span>
           </div>

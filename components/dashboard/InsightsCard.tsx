@@ -9,11 +9,12 @@ import type { Insights, ActivityBreakdown } from "@/lib/types";
 interface Props {
   insights: Insights;
   activity: ActivityBreakdown;
+  tzLabel?: string;
 }
 
 const CARD = {
-  background: "#161b22",
-  border: "1px solid #30363d",
+  background: "var(--bg-card)",
+  border: "1px solid var(--border)",
   borderRadius: "12px",
 };
 
@@ -24,11 +25,11 @@ function fmtHour(h: number): string {
   return `${h - 12}pm`;
 }
 
-export function InsightsCard({ insights, activity }: Props) {
+export function InsightsCard({ insights, activity, tzLabel = "UTC" }: Props) {
   const trend = insights.activityTrend;
 
   const TrendIcon = trend > 5 ? TrendingUp : trend < -5 ? TrendingDown : Minus;
-  const trendColor = trend > 5 ? "#3fb950" : trend < -5 ? "#f85149" : "#484f58";
+  const trendColor = trend > 5 ? "#3fb950" : trend < -5 ? "var(--red)" : "var(--text-dim)";
   const trendLabel =
     trend > 5
       ? `+${trend}% vs previous 30 days`
@@ -76,16 +77,16 @@ export function InsightsCard({ insights, activity }: Props) {
     {
       icon: <Clock size={14} style={{ color: "#3fb950" }} className="shrink-0 mt-0.5" />,
       bg: "rgba(63,185,80,0.08)",
-      text: `Most active ${activity.mostActiveDay}s · peak around ${fmtHour(activity.peakHour)} UTC`,
+      text: `Most active ${activity.mostActiveDay}s · peak around ${fmtHour(activity.peakHour)} ${tzLabel}`,
     },
   ];
 
   return (
     <div style={CARD} className="p-5">
-      <div style={{ borderBottom: "1px solid #21262d" }} className="pb-3 mb-4">
+      <div style={{ borderBottom: "1px solid var(--border-muted)" }} className="pb-3 mb-4">
         <h3
           className="text-xs font-semibold uppercase tracking-widest"
-          style={{ color: "#484f58" }}
+          style={{ color: "var(--text-dim)" }}
         >
           Insights
         </h3>
@@ -99,7 +100,7 @@ export function InsightsCard({ insights, activity }: Props) {
             style={{ background: bg }}
           >
             {icon}
-            <p className="text-sm leading-snug" style={{ color: "#8b949e" }}>
+            <p className="text-sm leading-snug" style={{ color: "var(--text-muted)" }}>
               {text}
             </p>
           </div>

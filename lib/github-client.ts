@@ -32,8 +32,18 @@ async function ghFetch<T>(path: string): Promise<T> {
     throw err;
   }
   if (res.status === 403 || res.status === 429) {
-    const err = new Error("GitHub API rate limit exceeded") as Error & { code: string };
+    // Parse Retry-After header (seconds) or X-RateLimit-Reset (unix timestamp)
+    let retryAfter: number | undefined;
+    const retryAfterHeader = res.headers.get("Retry-After");
+    const resetHeader = res.headers.get("X-RateLimit-Reset");
+    if (retryAfterHeader) {
+      retryAfter = parseInt(retryAfterHeader, 10);
+    } else if (resetHeader) {
+      retryAfter = Math.max(0, parseInt(resetHeader, 10) - Math.floor(Date.now() / 1000));
+    }
+    const err = new Error("GitHub API rate limit exceeded") as Error & { code: string; retryAfter?: number };
     err.code = "RATE_LIMITED";
+    err.retryAfter = retryAfter;
     throw err;
   }
   if (!res.ok) {

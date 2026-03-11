@@ -44,13 +44,13 @@ export function SearchForm({ defaultValue = "", compact = false }: Props) {
         <div
           className="flex items-center rounded-xl overflow-hidden transition-all duration-150"
           style={{
-            background: "#161b22",
-            border: `1px solid ${focused ? "#484f58" : "#30363d"}`,
+            background: "var(--bg-card)",
+            border: `1px solid ${focused ? "var(--text-dim)" : "var(--border)"}`,
             boxShadow: "none",
           }}
         >
           <div className="flex items-center px-3 shrink-0">
-            <Search size={14} style={{ color: "#484f58" }} />
+            <Search size={14} style={{ color: "var(--text-dim)" }} />
           </div>
 
           <input
@@ -65,7 +65,7 @@ export function SearchForm({ defaultValue = "", compact = false }: Props) {
             className={`flex-1 bg-transparent outline-none min-w-0 ${
               compact ? "h-9 text-sm" : "h-12 text-base"
             }`}
-            style={{ color: "#e6edf3" }}
+            style={{ color: "var(--text)" }}
             autoFocus={!compact}
             disabled={loading}
             aria-label="GitHub username"
@@ -98,11 +98,11 @@ export function SearchForm({ defaultValue = "", compact = false }: Props) {
       </form>
 
       {error && (
-        <p className="mt-2 text-xs" style={{ color: "#f85149" }}>{error}</p>
+        <p className="mt-2 text-xs" style={{ color: "var(--red)" }}>{error}</p>
       )}
 
       {!compact && (
-        <div className="mt-3 flex flex-wrap items-center gap-1.5 text-xs" style={{ color: "#484f58" }}>
+        <div className="mt-3 flex flex-wrap items-center gap-1.5 text-xs" style={{ color: "var(--text-dim)" }}>
           <span>Try:</span>
           {EXAMPLES.map((name) => (
             <button
@@ -110,14 +110,14 @@ export function SearchForm({ defaultValue = "", compact = false }: Props) {
               type="button"
               onClick={() => { setValue(name); submit(name); }}
               className="px-2 py-0.5 rounded-md font-mono transition-all"
-              style={{ background: "#161b22", border: "1px solid #30363d", color: "#8b949e" }}
+              style={{ background: "var(--bg-card)", border: "1px solid var(--border)", color: "var(--text-muted)" }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "#58a6ff";
-                e.currentTarget.style.color = "#58a6ff";
+                (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--accent)";
+                (e.currentTarget as HTMLButtonElement).style.color = "var(--accent)";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "#30363d";
-                e.currentTarget.style.color = "#8b949e";
+                (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border)";
+                (e.currentTarget as HTMLButtonElement).style.color = "var(--text-muted)";
               }}
             >
               {name}

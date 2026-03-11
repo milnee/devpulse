@@ -152,5 +152,7 @@ export type ApiError = {
   ok: false;
   error: string;
   code: "NOT_FOUND" | "RATE_LIMITED" | "INVALID_INPUT" | "NETWORK_ERROR" | "UNKNOWN";
+  /** Seconds until rate limit resets (only set when code === "RATE_LIMITED") */
+  retryAfter?: number;
 };
 export type ApiResponse = ApiSuccess | ApiError;

@@ -4,6 +4,7 @@ import type { ActivityBreakdown } from "@/lib/types";
 
 interface Props {
   activity: ActivityBreakdown;
+  tzLabel?: string;
 }
 
 function fmt(n: number): string {
@@ -20,8 +21,8 @@ function fmtHour(h: number): string {
 }
 
 const CARD = {
-  background: "#161b22",
-  border: "1px solid #30363d",
+  background: "var(--bg-card)",
+  border: "1px solid var(--border)",
   borderRadius: "12px",
 };
 
@@ -32,7 +33,7 @@ const STATS = [
   { key: "contributedTo"as const, label: "Contributed To",sub: "repos",      color: "#3fb950" },
 ];
 
-export function StatsGrid({ activity }: Props) {
+export function StatsGrid({ activity, tzLabel = "UTC" }: Props) {
   const hasLines = activity.linesAdded > 0 || activity.linesDeleted > 0;
 
   return (
@@ -40,17 +41,17 @@ export function StatsGrid({ activity }: Props) {
       {/* Header */}
       <div
         className="pb-3 mb-4 flex flex-wrap items-center justify-between gap-2"
-        style={{ borderBottom: "1px solid #21262d" }}
+        style={{ borderBottom: "1px solid var(--border-muted)" }}
       >
-        <h3 className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#484f58" }}>
+        <h3 className="text-xs font-semibold uppercase tracking-widest" style={{ color: "var(--text-dim)" }}>
           Contribution Stats · 90 Days
         </h3>
         {hasLines && (
           <div className="flex items-center gap-3 text-xs font-mono">
             <span style={{ color: "#3fb950" }}>+{fmt(activity.linesAdded)}</span>
-            <span style={{ color: "#484f58" }}>/</span>
-            <span style={{ color: "#f85149" }}>−{fmt(activity.linesDeleted)}</span>
-            <span style={{ color: "#484f58" }}>lines</span>
+            <span style={{ color: "var(--text-dim)" }}>/</span>
+            <span style={{ color: "var(--red)" }}>−{fmt(activity.linesDeleted)}</span>
+            <span style={{ color: "var(--text-dim)" }}>lines</span>
           </div>
         )}
       </div>
@@ -65,10 +66,10 @@ export function StatsGrid({ activity }: Props) {
             >
               {fmt(activity[key])}
             </span>
-            <span className="text-xs font-medium mt-1" style={{ color: "#e6edf3" }}>
+            <span className="text-xs font-medium mt-1" style={{ color: "var(--text)" }}>
               {label}
             </span>
-            <span className="text-[10px]" style={{ color: "#484f58" }}>
+            <span className="text-[10px]" style={{ color: "var(--text-dim)" }}>
               {sub} · last 90d
             </span>
           </div>
@@ -79,15 +80,15 @@ export function StatsGrid({ activity }: Props) {
       {(activity.mostActiveDay || activity.peakHour !== undefined) && (
         <div
           className="mt-4 pt-3 flex flex-wrap gap-x-6 gap-y-1 text-xs"
-          style={{ borderTop: "1px solid #21262d", color: "#484f58" }}
+          style={{ borderTop: "1px solid var(--border-muted)", color: "var(--text-dim)" }}
         >
           <span>
             Most active day:{" "}
-            <span style={{ color: "#8b949e" }}>{activity.mostActiveDay}</span>
+            <span style={{ color: "var(--text-muted)" }}>{activity.mostActiveDay}</span>
           </span>
           <span>
             Peak hour:{" "}
-            <span style={{ color: "#8b949e" }}>{fmtHour(activity.peakHour)} UTC</span>
+            <span style={{ color: "var(--text-muted)" }}>{fmtHour(activity.peakHour)} {tzLabel}</span>
           </span>
         </div>
       )}

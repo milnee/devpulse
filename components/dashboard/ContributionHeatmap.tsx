@@ -11,7 +11,7 @@ interface Props {
 
 // Blue-toned intensity scale matching our theme
 function cellColor(count: number): string {
-  if (count === 0) return "#1c2128";
+  if (count === 0) return "var(--bg-elevated)";
   if (count === 1) return "#0d2136";
   if (count <= 3) return "#0c3f6e";
   if (count <= 6) return "#1a5ba8";
@@ -19,8 +19,8 @@ function cellColor(count: number): string {
 }
 
 const CARD = {
-  background: "#161b22",
-  border: "1px solid #30363d",
+  background: "var(--bg-card)",
+  border: "1px solid var(--border)",
   borderRadius: "12px",
 };
 
@@ -32,7 +32,6 @@ export function ContributionHeatmap({ daily90, currentStreak, longestStreak }: P
   if (daily90.length === 0) return null;
 
   // Build a 13-week grid (91 days), aligning to Sunday start
-  // Find the Sunday at or before the earliest date
   const first = new Date(daily90[0].date + "T00:00:00Z");
   const startOffset = first.getUTCDay(); // 0=Sun
   const gridStart = new Date(first);
@@ -70,24 +69,24 @@ export function ContributionHeatmap({ daily90, currentStreak, longestStreak }: P
 
   return (
     <div style={CARD} className="p-4 sm:p-5">
-      <div style={{ borderBottom: "1px solid #21262d" }} className="pb-3 mb-4 flex flex-wrap items-center justify-between gap-2">
-        <h3 className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#484f58" }}>
+      <div style={{ borderBottom: "1px solid var(--border-muted)" }} className="pb-3 mb-4 flex flex-wrap items-center justify-between gap-2">
+        <h3 className="text-xs font-semibold uppercase tracking-widest" style={{ color: "var(--text-dim)" }}>
           Contribution Activity
         </h3>
         <div className="flex items-center gap-4 text-xs">
           {currentStreak > 0 && (
             <span className="flex items-center gap-1">
               <span style={{ color: "#ffa657" }}>🔥</span>
-              <span style={{ color: "#e6edf3" }} className="font-semibold">{currentStreak}</span>
-              <span style={{ color: "#484f58" }}>day streak</span>
+              <span style={{ color: "var(--text)" }} className="font-semibold">{currentStreak}</span>
+              <span style={{ color: "var(--text-dim)" }}>day streak</span>
             </span>
           )}
           {longestStreak > 0 && (
-            <span style={{ color: "#484f58" }}>
-              best <span style={{ color: "#8b949e" }}>{longestStreak}d</span>
+            <span style={{ color: "var(--text-dim)" }}>
+              best <span style={{ color: "var(--text-muted)" }}>{longestStreak}d</span>
             </span>
           )}
-          <span style={{ color: "#484f58" }}>{totalInPeriod} events · 90 days</span>
+          <span style={{ color: "var(--text-dim)" }}>{totalInPeriod} events · 90 days</span>
         </div>
       </div>
 
@@ -100,7 +99,7 @@ export function ContributionHeatmap({ daily90, currentStreak, longestStreak }: P
               return (
                 <div key={w} style={{ width: 14, marginRight: 2, flexShrink: 0 }}>
                   {label && (
-                    <span className="text-[10px]" style={{ color: "#484f58" }}>
+                    <span className="text-[10px]" style={{ color: "var(--text-dim)" }}>
                       {label.label}
                     </span>
                   )}
@@ -114,7 +113,7 @@ export function ContributionHeatmap({ daily90, currentStreak, longestStreak }: P
             {/* Day labels */}
             <div className="flex flex-col gap-0.5 mr-1.5" style={{ paddingTop: 1 }}>
               {["S","M","T","W","T","F","S"].map((d, i) => (
-                <div key={i} style={{ width: 12, height: 12, fontSize: 9, color: "#484f58", lineHeight: "12px", textAlign: "right" }}>
+                <div key={i} style={{ width: 12, height: 12, fontSize: 9, color: "var(--text-dim)", lineHeight: "12px", textAlign: "right" }}>
                   {i % 2 === 1 ? d : ""}
                 </div>
               ))}
@@ -153,9 +152,9 @@ export function ContributionHeatmap({ daily90, currentStreak, longestStreak }: P
           style={{
             left: tooltip.x,
             top: tooltip.y - 36,
-            background: "#1c2128",
-            border: "1px solid #30363d",
-            color: "#e6edf3",
+            background: "var(--bg-elevated)",
+            border: "1px solid var(--border)",
+            color: "var(--text)",
             boxShadow: "0 4px 12px rgba(0,0,0,0.4)",
             transform: "translateX(-50%)",
           }}
@@ -167,11 +166,11 @@ export function ContributionHeatmap({ daily90, currentStreak, longestStreak }: P
 
       {/* Legend */}
       <div className="mt-3 flex items-center gap-1.5 justify-end">
-        <span className="text-[10px]" style={{ color: "#484f58" }}>Less</span>
+        <span className="text-[10px]" style={{ color: "var(--text-dim)" }}>Less</span>
         {[0, 1, 3, 5, 8].map((v) => (
           <div key={v} style={{ width: 10, height: 10, borderRadius: 2, background: cellColor(v), flexShrink: 0 }} />
         ))}
-        <span className="text-[10px]" style={{ color: "#484f58" }}>More</span>
+        <span className="text-[10px]" style={{ color: "var(--text-dim)" }}>More</span>
       </div>
     </div>
   );
