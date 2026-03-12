@@ -81,7 +81,7 @@ export function SearchForm({ defaultValue = "", compact = false }: Props) {
               compact ? "px-3 h-7 text-xs" : "px-4 h-9 text-sm"
             }`}
             style={{
-              background: "linear-gradient(135deg,#58a6ff,#a371f7)",
+              background: "linear-gradient(135deg,#34d399,#c084fc)",
               color: "#fff",
             }}
           >

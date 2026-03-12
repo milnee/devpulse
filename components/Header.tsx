@@ -25,8 +25,8 @@ export function Header() {
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="logo-grad" x1="0" y1="0" x2="18" y2="18" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stopColor="#58a6ff"/>
-                <stop offset="100%" stopColor="#a371f7"/>
+                <stop offset="0%" stopColor="#34d399"/>
+                <stop offset="100%" stopColor="#c084fc"/>
               </linearGradient>
             </defs>
             <path d="M9 1L17 9L9 17L1 9L9 1Z" fill="url(#logo-grad)"/>

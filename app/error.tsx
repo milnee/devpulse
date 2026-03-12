@@ -49,7 +49,7 @@ export default function GlobalError({
           onClick={reset}
           className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all"
           style={{
-            background: "linear-gradient(135deg,#58a6ff,#a371f7)",
+            background: "linear-gradient(135deg,#34d399,#c084fc)",
             color: "#fff",
           }}
         >

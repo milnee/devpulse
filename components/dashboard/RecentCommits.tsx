@@ -55,7 +55,7 @@ export function RecentCommits({ commits }: Props) {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-0.5 text-xs transition-colors"
-                    style={{ color: "#58a6ff" }}
+                    style={{ color: "#34d399" }}
                   >
                     {c.repo}
                     <ExternalLink size={10} />

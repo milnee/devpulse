@@ -15,29 +15,29 @@ export const metadata: Metadata = {
 const FEATURES = [
   {
     icon: BarChart2,
-    color: "#58a6ff",
-    glow: "rgba(88,166,255,0.08)",
+    color: "#34d399",
+    glow: "rgba(52,211,153,0.08)",
     title: "Deep activity insights",
     desc: "90-day contribution heatmap, push events, PR velocity, code reviews, and streak tracking — all in one view.",
   },
   {
     icon: Code2,
-    color: "#a371f7",
-    glow: "rgba(163,113,247,0.08)",
+    color: "#c084fc",
+    glow: "rgba(192,132,252,0.08)",
     title: "Language breakdown",
     desc: "Visualize byte-weighted language distribution across repos with an interactive donut chart and ranked bars.",
   },
   {
     icon: ArrowLeftRight,
-    color: "#ffa657",
-    glow: "rgba(255,166,87,0.08)",
+    color: "#fbbf24",
+    glow: "rgba(251,191,36,0.08)",
     title: "Side-by-side compare",
     desc: "Compare any two GitHub developers head-to-head — stars, followers, commits, streaks, activity trends.",
   },
   {
     icon: Flame,
-    color: "#3fb950",
-    glow: "rgba(63,185,80,0.08)",
+    color: "#22d3ee",
+    glow: "rgba(34,211,238,0.08)",
     title: "Shareable & cached",
     desc: "Every profile gets a permanent URL. Results are cached for 6 hours so repeated lookups are instant.",
   },
@@ -88,7 +88,7 @@ export default function HomePage() {
             width: "900px",
             height: "500px",
             background:
-              "radial-gradient(ellipse at 50% 0%, rgba(88,166,255,0.13) 0%, transparent 65%)",
+              "radial-gradient(ellipse at 50% 0%, rgba(52,211,153,0.13) 0%, transparent 65%)",
           }}
         />
         {/* Ambient glow — bottom right */}
@@ -98,7 +98,7 @@ export default function HomePage() {
             width: "600px",
             height: "400px",
             background:
-              "radial-gradient(ellipse at 100% 100%, rgba(163,113,247,0.07) 0%, transparent 60%)",
+              "radial-gradient(ellipse at 100% 100%, rgba(192,132,252,0.07) 0%, transparent 60%)",
           }}
         />
 
@@ -117,8 +117,8 @@ export default function HomePage() {
             <span
               className="w-1.5 h-1.5 rounded-full shrink-0"
               style={{
-                background: "#3fb950",
-                boxShadow: "0 0 6px #3fb950",
+                background: "#22d3ee",
+                boxShadow: "0 0 6px #22d3ee",
                 animation: "pulse-ring 2s ease-in-out infinite",
               }}
             />
@@ -339,7 +339,7 @@ export default function HomePage() {
             >
               {/* Mock header */}
               <div className="flex items-center gap-3 mb-5 pb-4" style={{ borderBottom: "1px solid var(--border-muted)" }}>
-                <div className="w-10 h-10 rounded-full" style={{ background: "linear-gradient(135deg,#58a6ff,#a371f7)" }} />
+                <div className="w-10 h-10 rounded-full" style={{ background: "linear-gradient(135deg,#34d399,#c084fc)" }} />
                 <div className="space-y-1.5">
                   <div className="h-3 w-28 rounded-sm skeleton" />
                   <div className="h-2.5 w-20 rounded-sm skeleton" />
@@ -358,7 +358,7 @@ export default function HomePage() {
               <div className="flex gap-0.5 flex-wrap">
                 {Array.from({ length: 56 }, (_, i) => {
                   const intensity = [0, 0, 1, 0, 2, 1, 0, 3, 1, 0, 0, 2, 1, 0][i % 14];
-                  const colors = ["#1a1e27", "#0c3f6e", "#1a5ba8", "#3580c3"];
+                  const colors = ["#1a1e27", "#064e3b", "#059669", "#34d399"];
                   return (
                     <div
                       key={i}
@@ -386,7 +386,7 @@ export default function HomePage() {
             <div
               className="pointer-events-none absolute top-0 right-0 w-96 h-96 opacity-40"
               style={{
-                background: "radial-gradient(ellipse at 80% 0%, rgba(163,113,247,0.15) 0%, transparent 70%)",
+                background: "radial-gradient(ellipse at 80% 0%, rgba(192,132,252,0.15) 0%, transparent 70%)",
               }}
             />
 
@@ -395,9 +395,9 @@ export default function HomePage() {
                 <div
                   className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1 rounded-full mb-4"
                   style={{
-                    background: "rgba(163,113,247,0.1)",
-                    border: "1px solid rgba(163,113,247,0.2)",
-                    color: "#a371f7",
+                    background: "rgba(192,132,252,0.1)",
+                    border: "1px solid rgba(192,132,252,0.2)",
+                    color: "#c084fc",
                   }}
                 >
                   <ArrowLeftRight size={11} />
@@ -418,7 +418,7 @@ export default function HomePage() {
                 href="/compare"
                 className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold shrink-0 transition-opacity hover:opacity-80"
                 style={{
-                  background: "linear-gradient(135deg, #58a6ff, #a371f7)",
+                  background: "linear-gradient(135deg, #34d399, #c084fc)",
                   color: "#fff",
                   letterSpacing: "-0.01em",
                 }}
@@ -444,15 +444,15 @@ export default function HomePage() {
             <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
               <defs>
                 <linearGradient id="footer-grad" x1="0" y1="0" x2="18" y2="18" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stopColor="#58a6ff"/>
-                  <stop offset="100%" stopColor="#a371f7"/>
+                  <stop offset="0%" stopColor="#34d399"/>
+                  <stop offset="100%" stopColor="#c084fc"/>
                 </linearGradient>
               </defs>
               <path d="M9 1L17 9L9 17L1 9L9 1Z" fill="url(#footer-grad)"/>
               <path d="M9 5L13 9L9 13L5 9L9 5Z" fill="var(--bg)" opacity="0.6"/>
             </svg>
             <span className="text-xs font-medium">DevPulse</span>
-            <span className="text-xs" style={{ color: "var(--text-dim)" }}>© 2025</span>
+            <span className="text-xs" style={{ color: "var(--text-dim)" }}>© 2026</span>
           </div>
 
           {/* Links */}

@@ -12,10 +12,10 @@ interface Props {
 // Blue-toned intensity scale matching our theme
 function cellColor(count: number): string {
   if (count === 0) return "var(--bg-elevated)";
-  if (count === 1) return "#0d2136";
-  if (count <= 3) return "#0c3f6e";
-  if (count <= 6) return "#1a5ba8";
-  return "#58a6ff";
+  if (count === 1) return "#064e3b";
+  if (count <= 3) return "#059669";
+  if (count <= 6) return "#10b981";
+  return "#34d399";
 }
 
 const CARD = {
@@ -76,7 +76,7 @@ export function ContributionHeatmap({ daily90, currentStreak, longestStreak }: P
         <div className="flex items-center gap-4 text-xs">
           {currentStreak > 0 && (
             <span className="flex items-center gap-1">
-              <span style={{ color: "#ffa657" }}>🔥</span>
+              <span style={{ color: "#fbbf24" }}>🔥</span>
               <span style={{ color: "var(--text)" }} className="font-semibold">{currentStreak}</span>
               <span style={{ color: "var(--text-dim)" }}>day streak</span>
             </span>
@@ -159,7 +159,7 @@ export function ContributionHeatmap({ daily90, currentStreak, longestStreak }: P
             transform: "translateX(-50%)",
           }}
         >
-          <span style={{ color: "#58a6ff" }}>{tooltip.count}</span>{" "}
+          <span style={{ color: "#34d399" }}>{tooltip.count}</span>{" "}
           event{tooltip.count !== 1 ? "s" : ""} on {tooltip.date}
         </div>
       )}

@@ -38,7 +38,9 @@ export default function AboutPage() {
                 <li>Total stars &amp; forks across all repos</li>
                 <li>Most starred and recently updated repositories</li>
                 <li>Language breakdown chart (aggregated across top repos)</li>
-                <li>30-day activity timeline and weekday heatmap</li>
+                <li>90-day contribution heatmap with streak tracking</li>
+                <li>90-day activity charts and weekday breakdown</li>
+                <li>Side-by-side developer comparison</li>
                 <li>Automated insights: active repo, primary language, trend</li>
               </ul>
             ),
@@ -52,7 +54,7 @@ export default function AboutPage() {
                   href="https://docs.github.com/en/rest"
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ color: "#58a6ff" }}
+                  style={{ color: "#34d399" }}
                 >
                   public GitHub REST API
                 </a>

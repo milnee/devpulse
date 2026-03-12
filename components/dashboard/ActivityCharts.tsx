@@ -26,10 +26,10 @@ const CARD = {
 };
 
 const STAT_ITEMS = [
-  { key: "pushEvents",  label: "Pushes",  color: "#58a6ff" },
-  { key: "prEvents",    label: "PRs",     color: "#a371f7" },
-  { key: "issueEvents", label: "Issues",  color: "#ffa657" },
-  { key: "total",       label: "Total",   color: "#3fb950" },
+  { key: "pushEvents",  label: "Pushes",  color: "#34d399" },
+  { key: "prEvents",    label: "PRs",     color: "#c084fc" },
+  { key: "issueEvents", label: "Issues",  color: "#fbbf24" },
+  { key: "total",       label: "Total",   color: "#22d3ee" },
 ] as const;
 
 export function ActivityCharts({ activity }: Props) {
@@ -64,8 +64,8 @@ export function ActivityCharts({ activity }: Props) {
           <AreaChart data={dailyData} margin={{ top: 4, right: 4, left: -32, bottom: 0 }}>
             <defs>
               <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#58a6ff" stopOpacity={0.25} />
-                <stop offset="100%" stopColor="#58a6ff" stopOpacity={0} />
+                <stop offset="0%" stopColor="#34d399" stopOpacity={0.25} />
+                <stop offset="100%" stopColor="#34d399" stopOpacity={0} />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="var(--border-muted)" />
@@ -86,17 +86,17 @@ export function ActivityCharts({ activity }: Props) {
             <Tooltip
               contentStyle={TOOLTIP_STYLE}
               labelStyle={{ color: "var(--text-muted)", marginBottom: 4 }}
-              itemStyle={{ color: "#58a6ff" }}
+              itemStyle={{ color: "#34d399" }}
               formatter={(v) => [v ?? 0, "events"]}
             />
             <Area
               type="monotone"
               dataKey="count"
-              stroke="#58a6ff"
+              stroke="#34d399"
               strokeWidth={2}
               fill="url(#areaGrad)"
               dot={false}
-              activeDot={{ r: 4, fill: "#58a6ff", strokeWidth: 0 }}
+              activeDot={{ r: 4, fill: "#34d399", strokeWidth: 0 }}
             />
           </AreaChart>
         </ResponsiveContainer>
@@ -129,10 +129,10 @@ export function ActivityCharts({ activity }: Props) {
             <Tooltip
               contentStyle={TOOLTIP_STYLE}
               labelStyle={{ color: "var(--text-muted)", marginBottom: 4 }}
-              itemStyle={{ color: "#a371f7" }}
+              itemStyle={{ color: "#c084fc" }}
               formatter={(v) => [v ?? 0, "events"]}
             />
-            <Bar dataKey="count" radius={[4, 4, 0, 0]} maxBarSize={32} fill="#a371f7" />
+            <Bar dataKey="count" radius={[4, 4, 0, 0]} maxBarSize={32} fill="#c084fc" />
           </BarChart>
         </ResponsiveContainer>
       </div>

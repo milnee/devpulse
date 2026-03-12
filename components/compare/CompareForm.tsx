@@ -63,7 +63,7 @@ export function CompareForm({ defaultA = "", defaultB = "" }: Props) {
         <div className="flex items-center justify-center shrink-0 h-10">
           <div
             className="flex items-center justify-center w-8 h-8 rounded-full text-xs font-bold"
-            style={{ background: "rgba(88,166,255,0.1)", color: "var(--accent)", border: "1px solid rgba(88,166,255,0.2)" }}
+            style={{ background: "rgba(52,211,153,0.1)", color: "var(--accent)", border: "1px solid rgba(52,211,153,0.2)" }}
           >
             VS
           </div>
@@ -96,7 +96,7 @@ export function CompareForm({ defaultA = "", defaultB = "" }: Props) {
           onClick={submit}
           disabled={loading || !a.trim() || !b.trim()}
           className="flex items-center justify-center gap-2 px-5 h-10 rounded-xl text-sm font-medium transition-opacity disabled:opacity-40 shrink-0"
-          style={{ background: "linear-gradient(135deg,#58a6ff,#a371f7)", color: "#fff" }}
+          style={{ background: "linear-gradient(135deg,#34d399,#c084fc)", color: "#fff" }}
         >
           {loading ? <Loader2 size={14} className="animate-spin" /> : <><ArrowLeftRight size={14} /> Compare</>}
         </button>

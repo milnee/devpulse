@@ -59,20 +59,20 @@ function StatRow({ label, aVal, bVal, aRaw, bRaw }: StatRowProps) {
         {fmt(Number(aVal))}
       </span>
       <span className="w-44 text-center text-xs px-2" style={{ color: "var(--text-dim)" }}>{label}</span>
-      <span className="flex-1 text-left text-sm font-semibold" style={{ color: bWins ? "#a371f7" : "var(--text)" }}>
+      <span className="flex-1 text-left text-sm font-semibold" style={{ color: bWins ? "#c084fc" : "var(--text)" }}>
         {fmt(Number(bVal))}
-        {bWins && <span className="text-[10px] ml-1" style={{ color: "#a371f7" }}>▲</span>}
+        {bWins && <span className="text-[10px] ml-1" style={{ color: "#c084fc" }}>▲</span>}
       </span>
     </div>
   );
 }
 
 function UserHeader({ data, side }: { data: DashboardData; side: "a" | "b" }) {
-  const accentColor = side === "a" ? "var(--accent)" : "#a371f7";
+  const accentColor = side === "a" ? "var(--accent)" : "#c084fc";
   const gradientBg =
     side === "a"
-      ? "linear-gradient(135deg,rgba(88,166,255,0.08),rgba(88,166,255,0.02))"
-      : "linear-gradient(135deg,rgba(163,113,247,0.08),rgba(163,113,247,0.02))";
+      ? "linear-gradient(135deg,rgba(52,211,153,0.08),rgba(52,211,153,0.02))"
+      : "linear-gradient(135deg,rgba(192,132,252,0.08),rgba(192,132,252,0.02))";
   return (
     <div
       className="flex-1 rounded-xl p-4 sm:p-5 flex flex-col items-center text-center gap-3"
@@ -146,7 +146,7 @@ export default async function ComparePage({ searchParams }: Props) {
         <div className="flex items-center gap-3 mb-1">
           <div
             className="w-8 h-8 rounded-lg flex items-center justify-center"
-            style={{ background: "rgba(88,166,255,0.1)" }}
+            style={{ background: "rgba(52,211,153,0.1)" }}
           >
             <ArrowLeftRight size={16} style={{ color: "var(--accent)" }} />
           </div>
@@ -164,7 +164,7 @@ export default async function ComparePage({ searchParams }: Props) {
       {resultA && !resultA.ok && (
         <div
           className="mb-4 p-3 rounded-xl text-sm"
-          style={{ background: "rgba(248,81,73,0.08)", border: "1px solid rgba(248,81,73,0.2)", color: "var(--red)" }}
+          style={{ background: "rgba(248,113,113,0.08)", border: "1px solid rgba(248,113,113,0.2)", color: "var(--red)" }}
         >
           <strong>{a}:</strong> {resultA.error}
         </div>
@@ -172,7 +172,7 @@ export default async function ComparePage({ searchParams }: Props) {
       {resultB && !resultB.ok && (
         <div
           className="mb-4 p-3 rounded-xl text-sm"
-          style={{ background: "rgba(248,81,73,0.08)", border: "1px solid rgba(248,81,73,0.2)", color: "var(--red)" }}
+          style={{ background: "rgba(248,113,113,0.08)", border: "1px solid rgba(248,113,113,0.2)", color: "var(--red)" }}
         >
           <strong>{b}:</strong> {resultB.error}
         </div>
@@ -205,7 +205,7 @@ export default async function ComparePage({ searchParams }: Props) {
               </span>
               <div className="flex gap-6 text-xs font-semibold">
                 <span style={{ color: "var(--accent)" }}>@{dataA.username}</span>
-                <span style={{ color: "#a371f7" }}>@{dataB.username}</span>
+                <span style={{ color: "#c084fc" }}>@{dataB.username}</span>
               </div>
             </div>
             <StatRow label="Total Stars"           aVal={dataA.totalStars}                    bVal={dataB.totalStars}                    aRaw={dataA.totalStars}         bRaw={dataB.totalStars} />
@@ -242,7 +242,7 @@ export default async function ComparePage({ searchParams }: Props) {
                 {(
                   [
                     { data: dataA, label: dataA.username, color: "var(--accent)" },
-                    { data: dataB, label: dataB.username, color: "#a371f7" },
+                    { data: dataB, label: dataB.username, color: "#c084fc" },
                   ] as { data: DashboardData; label: string; color: string }[]
                 ).map(({ data, label, color }) => (
                   <div key={label}>
@@ -281,8 +281,8 @@ export default async function ComparePage({ searchParams }: Props) {
           <div className="flex flex-col sm:flex-row gap-3">
             {(
               [
-                { username: dataA.username, color: "var(--accent)", bg: "rgba(88,166,255,0.08)", border: "rgba(88,166,255,0.2)" },
-                { username: dataB.username, color: "#a371f7", bg: "rgba(163,113,247,0.08)", border: "rgba(163,113,247,0.2)" },
+                { username: dataA.username, color: "var(--accent)", bg: "rgba(52,211,153,0.08)", border: "rgba(52,211,153,0.2)" },
+                { username: dataB.username, color: "#c084fc", bg: "rgba(192,132,252,0.08)", border: "rgba(192,132,252,0.2)" },
               ] as { username: string; color: string; bg: string; border: string }[]
             ).map(({ username, color, bg, border }) => (
               <a

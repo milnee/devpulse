@@ -27,10 +27,10 @@ const CARD = {
 };
 
 const STATS = [
-  { key: "prOpened"     as const, label: "Pull Requests", sub: "opened",     color: "#a371f7" },
-  { key: "issuesOpened" as const, label: "Issues",        sub: "opened",     color: "#ffa657" },
-  { key: "codeReviews"  as const, label: "Code Reviews",  sub: "given",      color: "#58a6ff" },
-  { key: "contributedTo"as const, label: "Contributed To",sub: "repos",      color: "#3fb950" },
+  { key: "prOpened"     as const, label: "Pull Requests", sub: "opened",     color: "#c084fc" },
+  { key: "issuesOpened" as const, label: "Issues",        sub: "opened",     color: "#fbbf24" },
+  { key: "codeReviews"  as const, label: "Code Reviews",  sub: "given",      color: "#34d399" },
+  { key: "contributedTo"as const, label: "Contributed To",sub: "repos",      color: "#22d3ee" },
 ];
 
 export function StatsGrid({ activity, tzLabel = "UTC" }: Props) {
@@ -48,7 +48,7 @@ export function StatsGrid({ activity, tzLabel = "UTC" }: Props) {
         </h3>
         {hasLines && (
           <div className="flex items-center gap-3 text-xs font-mono">
-            <span style={{ color: "#3fb950" }}>+{fmt(activity.linesAdded)}</span>
+            <span style={{ color: "#22d3ee" }}>+{fmt(activity.linesAdded)}</span>
             <span style={{ color: "var(--text-dim)" }}>/</span>
             <span style={{ color: "var(--red)" }}>−{fmt(activity.linesDeleted)}</span>
             <span style={{ color: "var(--text-dim)" }}>lines</span>

@@ -10,12 +10,12 @@
   --text:        #eceff4;
   --text-muted:  #7d8799;
   --text-dim:    #404857;
-  --accent:      #58a6ff;
-  --accent-glow: rgba(88,166,255,0.12);
-  --green:       #3fb950;
-  --orange:      #ffa657;
-  --purple:      #a371f7;
-  --red:         #f85149;
+  --accent:      #34d399;
+  --accent-glow: rgba(52,211,153,0.12);
+  --green:       #22d3ee;
+  --orange:      #fbbf24;
+  --purple:      #c084fc;
+  --red:         #f87171;
 }
 
 [data-theme="light"] {
@@ -27,12 +27,12 @@
   --text:        #0d1117;
   --text-muted:  #57606a;
   --text-dim:    #9aa3b0;
-  --accent:      #0969da;
-  --accent-glow: rgba(9,105,218,0.10);
-  --green:       #1a7f37;
-  --orange:      #9a6700;
-  --purple:      #8250df;
-  --red:         #cf222e;
+  --accent:      #059669;
+  --accent-glow: rgba(5,150,105,0.10);
+  --green:       #0891b2;
+  --orange:      #b45309;
+  --purple:      #7c3aed;
+  --red:         #dc2626;
 }
 
 @theme inline {
@@ -155,7 +155,7 @@ body {
 }
 
 .gradient-text-blue {
-  background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%);
+  background: linear-gradient(135deg, #34d399 0%, #c084fc 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -163,10 +163,10 @@ body {
 
 /* ── Glow orbs ──────────────────────────── */
 .glow-blue {
-  background: radial-gradient(ellipse 60% 40% at 50% 50%, rgba(88,166,255,0.12) 0%, transparent 70%);
+  background: radial-gradient(ellipse 60% 40% at 50% 50%, rgba(52,211,153,0.12) 0%, transparent 70%);
 }
 .glow-purple {
-  background: radial-gradient(ellipse 50% 35% at 50% 50%, rgba(163,113,247,0.10) 0%, transparent 70%);
+  background: radial-gradient(ellipse 50% 35% at 50% 50%, rgba(192,132,252,0.10) 0%, transparent 70%);
 }
 
 /* ── Nav link hover ─────────────────────── */

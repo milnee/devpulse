@@ -7,7 +7,7 @@ export default function NotFound() {
       <p
         className="text-7xl font-bold"
         style={{
-          background: "linear-gradient(135deg,#58a6ff,#a371f7)",
+          background: "linear-gradient(135deg,#34d399,#c084fc)",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
           backgroundClip: "text",

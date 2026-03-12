@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { MapPin, Link2, Building2, Users, BookOpen, Star, GitFork, ExternalLink } from "lucide-react";
+import { MapPin, Link2, Building2, Users, BookOpen, Star, GitFork, ExternalLink, FileCode2 } from "lucide-react";
 import type { GitHubUser } from "@/lib/types";
 
 interface Props {
@@ -22,9 +22,10 @@ export function ProfileCard({ user, totalStars, totalForks }: Props) {
   const stats = [
     { icon: Users,    label: "Followers",   value: fmt(user.followers) },
     { icon: Users,    label: "Following",   value: fmt(user.following) },
-    { icon: BookOpen, label: "Repos",       value: fmt(user.public_repos) },
-    { icon: Star,     label: "Stars",       value: fmt(totalStars) },
-    { icon: GitFork,  label: "Forks",       value: fmt(totalForks) },
+    { icon: BookOpen,  label: "Repos",       value: fmt(user.public_repos) },
+    { icon: FileCode2, label: "Gists",      value: fmt(user.public_gists) },
+    { icon: Star,      label: "Stars",      value: fmt(totalStars) },
+    { icon: GitFork,   label: "Forks",      value: fmt(totalForks) },
   ];
 
   return (
@@ -36,7 +37,7 @@ export function ProfileCard({ user, totalStars, totalForks }: Props) {
           <div
             className="absolute inset-0 rounded-full blur-sm"
             style={{
-              background: "linear-gradient(135deg,#58a6ff,#a371f7)",
+              background: "linear-gradient(135deg,#34d399,#c084fc)",
               transform: "scale(1.08)",
             }}
           />
@@ -68,9 +69,9 @@ export function ProfileCard({ user, totalStars, totalForks }: Props) {
             <span
               className="inline-block text-xs px-2 py-0.5 rounded-full font-medium"
               style={{
-                background: "rgba(88,166,255,0.1)",
-                border: "1px solid rgba(88,166,255,0.2)",
-                color: "#58a6ff",
+                background: "rgba(52,211,153,0.1)",
+                border: "1px solid rgba(52,211,153,0.2)",
+                color: "#34d399",
               }}
             >
               Joined {joined}
@@ -135,7 +136,7 @@ export function ProfileCard({ user, totalStars, totalForks }: Props) {
 
       {/* Stats grid */}
       <div
-        className="mt-4 pt-4 grid grid-cols-5 gap-2"
+        className="mt-4 pt-4 grid grid-cols-3 sm:grid-cols-6 gap-2"
         style={{ borderTop: "1px solid var(--border-muted)" }}
       >
         {stats.map(({ icon: Icon, label, value }) => (
