@@ -1,21 +1,78 @@
+<div align="center">
+
 # DevPulse
 
-> Instant GitHub developer analytics — no sign-up, no OAuth, no nonsense.
+**Instant GitHub developer analytics — no sign-up, no OAuth, no nonsense.**
 
-Paste any GitHub username (or profile URL) and get a clean, shareable analytics dashboard built entirely from public GitHub data.
+Paste any GitHub username and get a beautiful, shareable analytics dashboard built entirely from public GitHub data.
+
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js)](https://nextjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-38bdf8?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![Deployed on Vercel](https://img.shields.io/badge/Deployed_on-Vercel-black?style=flat-square&logo=vercel)](https://vercel.com)
+[![License: MIT](https://img.shields.io/badge/License-MIT-22d3ee?style=flat-square)](./LICENSE)
+
+[**Live Demo →**](https://devpulse.vercel.app) &nbsp;·&nbsp; [**Try it: /u/sindresorhus**](https://devpulse.vercel.app/u/sindresorhus) &nbsp;·&nbsp; [**Compare two devs**](https://devpulse.vercel.app/compare)
+
+<br/>
+
+![DevPulse — Homepage](./screenshots/homepage.png)
+
+</div>
+
+---
+
+## Dashboard
+
+Every public GitHub profile gets a full analytics page at `/u/<username>` — no account needed.
+
+![DevPulse — Dashboard overview](./screenshots/dashboard.png)
+
+The dashboard uses a sidebar layout with five sections: **Overview**, **Activity**, **Repositories**, **Languages**, and **Insights**. Stats are pulled from the public GitHub API and cached for 6 hours so repeat visits are instant.
+
+<br/>
+
+### Activity — 90-Day View
+
+![DevPulse — Activity charts](./screenshots/activity.png)
+
+Contribution heatmap, 30-day push event timeline, weekday activity patterns, current & longest streak — all timezone-aware using the viewer's local time.
+
+<br/>
+
+### Languages & Insights
+
+![DevPulse — Languages and insights](./screenshots/languages.png)
+
+Byte-weighted language breakdown across every public repo rendered as an interactive donut chart and ranked bars. The Insights panel surfaces primary language, most active repo, commit estimate, and activity trend vs the prior 30 days.
+
+---
+
+## Compare
+
+![DevPulse — Compare two developers](./screenshots/compare.png)
+
+Head-to-head comparison of any two GitHub developers at `/compare`. Stars, followers, commits, streaks, languages, and activity trends — all in one side-by-side view.
 
 ---
 
 ## Features
 
-- **Profile summary** — avatar, bio, location, followers, public repos
-- **Repo stats** — total stars & forks, most starred repos, recently updated repos
-- **Language breakdown** — donut chart + percentage bars aggregated across repos
-- **Activity charts** — 30-day timeline (area chart) and weekday heatmap (bar chart)
-- **Insights** — most active repo, primary language, activity trend vs previous 30 days, commit estimate
-- **Shareable URLs** — every profile lives at `/u/<username>`, copy-link button included
-- **Smart caching** — results cached for 6 hours; shows "cached as of" timestamp
-- **No auth required** — works entirely with the public GitHub API
+| | |
+|---|---|
+| **Profile overview** | Avatar, bio, location, company, social links, follower & star counts |
+| **Contribution heatmap** | 90-day calendar grid with per-day intensity, current & longest streaks |
+| **Activity charts** | 30-day area chart + weekday bar chart of push events |
+| **Repo explorer** | Most starred and recently updated repos with star/fork counts and language tags |
+| **Language breakdown** | Donut chart + ranked percentage bars aggregated across all public repos |
+| **AI-style insights** | Primary language, most active repo, activity trend delta, peak coding day |
+| **Recent commits** | Latest push events with repo context and timestamps |
+| **Developer compare** | Side-by-side `/compare` view for any two GitHub users |
+| **Shareable URLs** | Every profile has a permanent `/u/<username>` URL with a copy-link button |
+| **Smart caching** | 6-hour TTL with "cached as of" timestamp; MySQL-backed for multi-instance deploys |
+| **Light & dark mode** | Theme toggle in header, respects `prefers-color-scheme` |
+| **Timezone-aware** | Streaks and heatmaps calculated in the viewer's local timezone |
+| **No auth required** | 100% public GitHub API — no sign-up, no OAuth, no keys for visitors |
 
 ---
 
@@ -23,13 +80,13 @@ Paste any GitHub username (or profile URL) and get a clean, shareable analytics 
 
 | Layer | Tech |
 |---|---|
-| Framework | Next.js 16 (App Router) |
-| Language | TypeScript |
-| Styling | Tailwind CSS |
-| Components | shadcn/ui (Radix) |
+| Framework | Next.js 16 (App Router, Turbopack) |
+| Language | TypeScript 5 |
+| Styling | Tailwind CSS v4 |
+| Components | shadcn/ui (Radix UI primitives) |
 | Charts | Recharts |
 | Icons | Lucide |
-| Cache | In-memory (default) · MySQL/PlanetScale (optional) |
+| Cache | In-memory (default) · MySQL / PlanetScale (optional) |
 | Hosting | Vercel |
 
 ---
@@ -41,27 +98,25 @@ Paste any GitHub username (or profile URL) and get a clean, shareable analytics 
 git clone https://github.com/milnee/devpulse.git
 cd devpulse
 
-# 2. Install
+# 2. Install dependencies
 npm install
 
-# 3. Configure env
+# 3. Set up environment
 cp .env.local.example .env.local
-# → Add GITHUB_TOKEN to raise rate limits from 60 → 5000 req/hr (optional but recommended)
+# Add GITHUB_TOKEN to raise the rate limit from 60 → 5,000 req/hr (recommended)
 
-# 4. Run
+# 4. Start dev server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000) and search any GitHub username.
 
----
-
-## Environment Variables
+### Environment Variables
 
 | Variable | Required | Description |
 |---|---|---|
-| `GITHUB_TOKEN` | Optional | Personal access token — no scopes needed. Raises rate limit from 60 → 5,000 req/hr. [Create one here.](https://github.com/settings/tokens) |
-| `DATABASE_URL` | Optional | MySQL connection string for persistent cross-instance caching. Falls back to in-memory if not set. |
+| `GITHUB_TOKEN` | Recommended | Personal access token (no scopes needed). Raises rate limit to 5,000 req/hr. [Create one →](https://github.com/settings/tokens) |
+| `DATABASE_URL` | Optional | MySQL connection string for persistent caching across instances. Falls back to in-memory. |
 | `NEXT_PUBLIC_BASE_URL` | Optional | Your deployment URL. Auto-detected on Vercel via `VERCEL_URL`. |
 
 ---
@@ -70,68 +125,46 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ```
 lib/
-  types.ts          # All TypeScript interfaces (GitHubUser, DashboardData, ApiResponse…)
-  github-client.ts  # Raw GitHub REST API calls
-  metrics.ts        # Pure computation — computeDashboard()
-  cache.ts          # In-memory + optional MySQL cache (6 hr TTL)
-  validate.ts       # Input validation — accepts username or github.com URLs
+  github-client.ts   # GitHub REST API calls
+  metrics.ts         # Pure computation — computeDashboard()
+  cache.ts           # In-memory + optional MySQL cache (6 hr TTL)
+  validate.ts        # Accepts GitHub usernames or profile URLs
+  types.ts           # TypeScript interfaces
 
 app/
-  api/analyze/      # GET /api/analyze?username=… — orchestrates fetch → compute → cache
-  page.tsx          # Homepage
-  u/[username]/     # Results dashboard (server component, ISR)
-  about/            # About page
+  page.tsx           # Landing page
+  u/[username]/      # Analytics dashboard (server component)
+  compare/           # Side-by-side developer comparison
+  api/analyze/       # GET /api/analyze?username= — fetch → compute → cache
 
 components/
-  Header.tsx
-  SearchForm.tsx
-  dashboard/
-    ProfileCard.tsx
-    RepoList.tsx
-    ActivityCharts.tsx
-    LanguageChart.tsx
-    InsightsCard.tsx
-    CopyLinkButton.tsx
+  dashboard/         # ProfileCard, StatsGrid, ContributionHeatmap,
+                     # ActivityCharts, RecentCommits, LanguageChart,
+                     # RepoList, InsightsCard, CopyLinkButton
+  compare/           # CompareForm
 ```
 
-**Data flow:**
+**Request flow:**
 ```
-User types username
-  → SearchForm validates input
-  → Navigates to /u/<username>
-  → Server component calls /api/analyze
-  → API checks cache → hit: return cached data
-                     → miss: fetch GitHub (profile + repos + events + languages)
-                           → computeDashboard()
-                           → store in cache
-                           → return JSON
-  → Dashboard renders
+/u/<username>
+  → server component calls /api/analyze
+  → cache hit  → return JSON immediately
+  → cache miss → GitHub API (profile + repos + events + languages)
+              → computeDashboard()  → cache → return JSON
+  → dashboard renders
 ```
+
+Each fresh analysis uses ~18 GitHub API requests. Cached profiles cost zero.
 
 ---
 
-## Rate Limits
-
-GitHub's unauthenticated limit is **60 requests/hour per IP**. Each analysis uses:
-
-- 1 request — user profile
-- 1 request — repos list
-- 1 request — public events
-- Up to 15 requests — language data (top non-fork repos only)
-
-**Total: ~18 requests per fresh analysis.** Results are cached for 6 hours so repeat visits are free.
-
-Add a `GITHUB_TOKEN` (no scopes needed) to raise this to 5,000 req/hr.
-
----
-
-## Deploy to Vercel
+## Deploy
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/milnee/devpulse)
 
-1. Click the button above
-2. Add `GITHUB_TOKEN` in the Vercel dashboard under Environment Variables
-3. Done — `VERCEL_URL` is set automatically
+1. Click **Deploy** above
+2. Add `GITHUB_TOKEN` in Vercel → Settings → Environment Variables
+3. Done. `VERCEL_URL` is set automatically.
 
 ---
 
