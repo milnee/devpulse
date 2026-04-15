@@ -12,7 +12,7 @@ Paste any GitHub username and get a beautiful, shareable analytics dashboard bui
 [![Deployed on Vercel](https://img.shields.io/badge/Deployed_on-Vercel-black?style=flat-square&logo=vercel)](https://vercel.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-22d3ee?style=flat-square)](./LICENSE)
 
-[**Live Demo →**](https://devpulse-one-beta.vercel.app) &nbsp;·&nbsp; [**Try it: /u/sindresorhus**](https://devpulse-one-beta.vercel.app/u/sindresorhus) &nbsp;·&nbsp; [**Compare two devs**](https://devpulse-one-beta.vercel.app/compare)
+[**Live Demo →**](https://devpulse-afks.vercel.app) &nbsp;·&nbsp; [**Try it: /u/sindresorhus**](https://devpulse-afks.vercel.app/u/sindresorhus) &nbsp;·&nbsp; [**Compare two devs**](https://devpulse-afks.vercel.app/compare)
 
 <br/>
 
