@@ -16,6 +16,7 @@ import { RecentCommits } from "@/components/dashboard/RecentCommits";
 import { ContributionHeatmap } from "@/components/dashboard/ContributionHeatmap";
 import { StatsGrid } from "@/components/dashboard/StatsGrid";
 import { TimezoneDetector } from "@/components/TimezoneDetector";
+import { getDashboard } from "@/lib/analyze";
 import type { ApiResponse } from "@/lib/types";
 
 interface Props {
@@ -34,16 +35,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 async function fetchDashboard(username: string, tz?: string): Promise<ApiResponse> {
-  const base =
-    process.env.NEXT_PUBLIC_BASE_URL ??
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
-
-  const url = new URL(`${base}/api/analyze`);
-  url.searchParams.set("username", username);
-  if (tz) url.searchParams.set("tz", tz);
-
-  const res = await fetch(url.toString(), { cache: "no-store" });
-  return res.json() as Promise<ApiResponse>;
+  const tzNum = tz ? parseInt(tz, 10) : undefined;
+  return getDashboard(username, { tz: tzNum });
 }
 
 function fmt(n: number): string {

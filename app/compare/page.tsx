@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeftRight, TrendingUp, TrendingDown, Minus } from "lucide-react";
 import { CompareForm } from "@/components/compare/CompareForm";
+import { getDashboard } from "@/lib/analyze";
 import type { ApiResponse, DashboardData } from "@/lib/types";
 
 export const metadata: Metadata = {
@@ -17,15 +18,7 @@ interface Props {
 }
 
 async function fetchUser(username: string): Promise<ApiResponse> {
-  try {
-    const base =
-      process.env.NEXT_PUBLIC_BASE_URL ??
-      (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
-    const res = await fetch(`${base}/api/analyze?username=${encodeURIComponent(username)}`, { cache: "no-store" });
-    return await res.json() as ApiResponse;
-  } catch {
-    return { ok: false, error: "Failed to fetch data. Please try again.", code: "NETWORK_ERROR" };
-  }
+  return getDashboard(username);
 }
 
 function fmt(n: number): string {
