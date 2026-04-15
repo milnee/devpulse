@@ -17,11 +17,15 @@ interface Props {
 }
 
 async function fetchUser(username: string): Promise<ApiResponse> {
-  const base =
-    process.env.NEXT_PUBLIC_BASE_URL ??
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
-  const res = await fetch(`${base}/api/analyze?username=${encodeURIComponent(username)}`, { cache: "no-store" });
-  return res.json() as Promise<ApiResponse>;
+  try {
+    const base =
+      process.env.NEXT_PUBLIC_BASE_URL ??
+      (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
+    const res = await fetch(`${base}/api/analyze?username=${encodeURIComponent(username)}`, { cache: "no-store" });
+    return await res.json() as ApiResponse;
+  } catch {
+    return { ok: false, error: "Failed to fetch data. Please try again.", code: "NETWORK_ERROR" };
+  }
 }
 
 function fmt(n: number): string {
